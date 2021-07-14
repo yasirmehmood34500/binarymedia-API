@@ -17,6 +17,7 @@ const { viewPayroll, singlePayroll, addPayroll, updatePayroll, deletePayroll } =
 const { viewPayrollItem, singlePayrollItem, addPayrollItem, updatePayrollItem, deletePayrollItem } = require('./payrollItem')
 const { viewPayrollTemplate, singlePayrollTemplate, addPayrollTemplate, updatePayrollTemplate, deletePayrollTemplate } = require('./payrollTemplate')
 const { viewRole, singleRole, addRole, updateRole, deleteRole } = require('./role')
+const { viewUser, singleUser, addUser, updateUser, deleteUser } = require('./user')
 
 
 // routes
@@ -110,6 +111,13 @@ app.get(version + '/role/:id', singleRole)
 app.post(version + '/role', addRole)
 app.put(version + '/role', updateRole)
 app.delete(version + '/role/:id', deleteRole)
+
+// user routes
+app.get(version + '/user', viewUser)
+app.get(version + '/user/:id', singleUser)
+app.post(version + '/user', addUser)
+app.put(version + '/user', updateUser)
+app.delete(version + '/user/:id', deleteUser)
 
 app.listen(
     port,
