@@ -9,6 +9,7 @@ require('./db')
 const { viewChartOfAccount, singleChartOfAccount, addChartOfAccount, deleteChartOfAccount, updateChartOfAccount, updateJournalEntries, addJournalEntries, viewJournalEntries, singleJournalEntries, deleteJournalEntries } = require('./accounting/index')
 const { viewBranches, singleBranches, addBranches, updateBranches, deleteBranches } = require('./branches/index')
 const { viewClient, singleClient, addClient, updateClient, deleteClient } = require('./client')
+const { viewExpense, singleExpense, addExpense, updateExpense, deleteExpense } = require('./expense')
 const { viewExpenseType, singleExpenseType, addExpenseType, updateExpenseType, deleteExpenseType } = require('./expenseType')
 const { viewPayroll, singlePayroll, addPayroll, updatePayroll, deletePayroll } = require('./payroll')
 const { viewPayrollItem, singlePayrollItem, addPayrollItem, updatePayrollItem, deletePayrollItem } = require('./payrollItem')
@@ -78,6 +79,13 @@ app.get(version + '/expenseType/:id', singleExpenseType)
 app.post(version + '/expenseType', addExpenseType)
 app.put(version + '/expenseType', updateExpenseType)
 app.delete(version + '/expenseType/:id', deleteExpenseType)
+
+// expense routes
+app.get(version + '/expense', viewExpense)
+app.get(version + '/expense/:id', singleExpense)
+app.post(version + '/expense', addExpense)
+app.put(version + '/expense', updateExpense)
+app.delete(version + '/expense/:id', deleteExpense)
 
 app.listen(
     port,
