@@ -34,15 +34,15 @@ var version = "/v1"
 app.get(version + '/accounting', viewChartOfAccount)
 app.get(version + '/accounting/:id', singleChartOfAccount)
 app.post(version + '/accounting', addChartOfAccount)
-app.delete(version + '/accounting/:id', deleteChartOfAccount)
 app.put(version + '/accounting', updateChartOfAccount)
+app.delete(version + '/accounting/:id', deleteChartOfAccount)
 
 // journal entries routes
 app.get(version + '/journalEntry', viewJournalEntries)
 app.get(version + '/journalEntry/:id', singleJournalEntries)
 app.post(version + '/journalEntry', addJournalEntries)
-app.delete(version + '/journalEntry/:id', deleteJournalEntries)
 app.put(version + '/journalEntry', updateJournalEntries)
+app.delete(version + '/journalEntry/:id', deleteJournalEntries)
 
 // branches routes
 app.get(version + '/branches', viewBranches)
