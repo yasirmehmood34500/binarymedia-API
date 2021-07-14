@@ -11,6 +11,7 @@ const { viewBranches, singleBranches, addBranches, updateBranches, deleteBranche
 const { viewClient, singleClient, addClient, updateClient, deleteClient } = require('./client')
 const { viewExpense, singleExpense, addExpense, updateExpense, deleteExpense } = require('./expense')
 const { viewExpenseType, singleExpenseType, addExpenseType, updateExpenseType, deleteExpenseType } = require('./expenseType')
+const { viewIncomeType, singleIncomeType, addIncomeType, updateIncomeType, deleteIncomeType } = require('./incomeType')
 const { viewPayroll, singlePayroll, addPayroll, updatePayroll, deletePayroll } = require('./payroll')
 const { viewPayrollItem, singlePayrollItem, addPayrollItem, updatePayrollItem, deletePayrollItem } = require('./payrollItem')
 const { viewPayrollTemplate, singlePayrollTemplate, addPayrollTemplate, updatePayrollTemplate, deletePayrollTemplate } = require('./payrollTemplate')
@@ -86,6 +87,13 @@ app.get(version + '/expense/:id', singleExpense)
 app.post(version + '/expense', addExpense)
 app.put(version + '/expense', updateExpense)
 app.delete(version + '/expense/:id', deleteExpense)
+
+// expense type routes
+app.get(version + '/incomeType', viewIncomeType)
+app.get(version + '/incomeType/:id', singleIncomeType)
+app.post(version + '/incomeType', addIncomeType)
+app.put(version + '/incomeType', updateIncomeType)
+app.delete(version + '/incomeType/:id', deleteIncomeType)
 
 app.listen(
     port,
