@@ -7,6 +7,7 @@ require('./db')
 
 // functions
 const { viewChartOfAccount, singleChartOfAccount, addChartOfAccount, deleteChartOfAccount, updateChartOfAccount, updateJournalEntries, addJournalEntries, viewJournalEntries, singleJournalEntries, deleteJournalEntries } = require('./accounting/index')
+const { viewActivityLogs, singleActivityLogs, addActivityLogs, updateActivityLogs, deleteActivityLogs } = require('./activityLogs')
 const { viewBranches, singleBranches, addBranches, updateBranches, deleteBranches } = require('./branches/index')
 const { viewClient, singleClient, addClient, updateClient, deleteClient } = require('./client')
 const { viewExpense, singleExpense, addExpense, updateExpense, deleteExpense } = require('./expense')
@@ -94,6 +95,13 @@ app.get(version + '/incomeType/:id', singleIncomeType)
 app.post(version + '/incomeType', addIncomeType)
 app.put(version + '/incomeType', updateIncomeType)
 app.delete(version + '/incomeType/:id', deleteIncomeType)
+
+// activity logs routes
+app.get(version + '/activityLogs', viewActivityLogs)
+app.get(version + '/activityLogs/:id', singleActivityLogs)
+app.post(version + '/activityLogs', addActivityLogs)
+app.put(version + '/activityLogs', updateActivityLogs)
+app.delete(version + '/activityLogs/:id', deleteActivityLogs)
 
 app.listen(
     port,
