@@ -8,6 +8,7 @@ require('./db')
 // functions
 const { viewChartOfAccount, singleChartOfAccount, addChartOfAccount, deleteChartOfAccount, updateChartOfAccount, updateJournalEntries, addJournalEntries, viewJournalEntries, singleJournalEntries, deleteJournalEntries } = require('./accounting/index')
 const { viewActivityLogs, singleActivityLogs, addActivityLogs, updateActivityLogs, deleteActivityLogs } = require('./activityLogs')
+const { viewAssetType, singleAssetType, addAssetType, updateAssetType, deleteAssetType } = require('./assetType')
 const { viewBranches, singleBranches, addBranches, updateBranches, deleteBranches } = require('./branches/index')
 const { viewClient, singleClient, addClient, updateClient, deleteClient } = require('./client')
 const { viewExpense, singleExpense, addExpense, updateExpense, deleteExpense } = require('./expense')
@@ -118,6 +119,13 @@ app.get(version + '/user/:id', singleUser)
 app.post(version + '/user', addUser)
 app.put(version + '/user', updateUser)
 app.delete(version + '/user/:id', deleteUser)
+
+// asset type routes
+app.get(version + '/assetType', viewAssetType)
+app.get(version + '/assetType/:id', singleAssetType)
+app.post(version + '/assetType', addAssetType)
+app.put(version + '/assetType', updateAssetType)
+app.delete(version + '/assetType/:id', deleteAssetType)
 
 app.listen(
     port,
