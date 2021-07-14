@@ -9,6 +9,7 @@ require('./db')
 const { viewChartOfAccount, singleChartOfAccount, addChartOfAccount, deleteChartOfAccount, updateChartOfAccount, updateJournalEntries, addJournalEntries, viewJournalEntries, singleJournalEntries, deleteJournalEntries } = require('./accounting/index')
 const { viewBranches, singleBranches, addBranches, updateBranches, deleteBranches } = require('./branches/index')
 const { viewClient, singleClient, addClient, updateClient, deleteClient } = require('./client')
+const { viewPayroll, singlePayroll, addPayroll, updatePayroll, deletePayroll } = require('./payroll')
 const { viewPayrollItem, singlePayrollItem, addPayrollItem, updatePayrollItem, deletePayrollItem } = require('./payrollItem')
 const { viewPayrollTemplate, singlePayrollTemplate, addPayrollTemplate, updatePayrollTemplate, deletePayrollTemplate } = require('./payrollTemplate')
 
@@ -62,6 +63,13 @@ app.get(version + '/payrollItem/:id', singlePayrollItem)
 app.post(version + '/payrollItem', addPayrollItem)
 app.put(version + '/payrollItem', updatePayrollItem)
 app.delete(version + '/payrollItem/:id', deletePayrollItem)
+
+// payroll routes
+app.get(version + '/payroll', viewPayroll)
+app.get(version + '/payroll/:id', singlePayroll)
+app.post(version + '/payroll', addPayroll)
+app.put(version + '/payroll', updatePayroll)
+app.delete(version + '/payroll/:id', deletePayroll)
 
 app.listen(
     port,
