@@ -11,6 +11,7 @@ const { viewActivityLogs, singleActivityLogs, addActivityLogs, updateActivityLog
 const { viewAsset, singleAsset, addAsset, updateAsset, deleteAsset } = require('./asset')
 const { viewAssetType, singleAssetType, addAssetType, updateAssetType, deleteAssetType } = require('./assetType')
 const { viewBranches, singleBranches, addBranches, updateBranches, deleteBranches } = require('./branches/index')
+const { viewBranchUser, singleBranchUser, addBranchUser, updateBranchUser, deleteBranchUser } = require('./branchUser')
 const { viewClient, singleClient, addClient, updateClient, deleteClient } = require('./client')
 const { viewExpense, singleExpense, addExpense, updateExpense, deleteExpense } = require('./expense')
 const { viewExpenseType, singleExpenseType, addExpenseType, updateExpenseType, deleteExpenseType } = require('./expenseType')
@@ -50,6 +51,13 @@ app.get(version + '/branches/:id', singleBranches)
 app.post(version + '/branches', addBranches)
 app.put(version + '/branches', updateBranches)
 app.delete(version + '/branches/:id', deleteBranches)
+
+// branch user routes
+app.get(version + '/branchUser', viewBranchUser)
+app.get(version + '/branchUser/:id', singleBranchUser)
+app.post(version + '/branchUser', addBranchUser)
+app.put(version + '/branchUser', updateBranchUser)
+app.delete(version + '/branchUser/:id', deleteBranchUser)
 
 // client routes
 app.get(version + '/client', viewClient)
