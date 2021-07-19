@@ -7,129 +7,177 @@ require("./db");
 
 // functions
 const {
-    viewChartOfAccount,
-    singleChartOfAccount,
-    addChartOfAccount,
-    deleteChartOfAccount,
-    updateChartOfAccount,
-    updateJournalEntries,
-    addJournalEntries,
-    viewJournalEntries,
-    singleJournalEntries,
-    deleteJournalEntries,
+  viewChartOfAccount,
+  singleChartOfAccount,
+  addChartOfAccount,
+  deleteChartOfAccount,
+  updateChartOfAccount,
+  updateJournalEntries,
+  addJournalEntries,
+  viewJournalEntries,
+  singleJournalEntries,
+  deleteJournalEntries,
 } = require("./accounting/index");
 const {
-    viewActivityLogs,
-    singleActivityLogs,
-    addActivityLogs,
-    updateActivityLogs,
-    deleteActivityLogs,
+  viewActivityLogs,
+  singleActivityLogs,
+  addActivityLogs,
+  updateActivityLogs,
+  deleteActivityLogs,
 } = require("./activityLogs");
 const {
-    viewAsset,
-    singleAsset,
-    addAsset,
-    updateAsset,
-    deleteAsset,
+  viewAsset,
+  singleAsset,
+  addAsset,
+  updateAsset,
+  deleteAsset,
 } = require("./asset");
 const {
-    viewAssetType,
-    singleAssetType,
-    addAssetType,
-    updateAssetType,
-    deleteAssetType,
+  viewAssetType,
+  singleAssetType,
+  addAssetType,
+  updateAssetType,
+  deleteAssetType,
 } = require("./assetType");
 const {
-    viewBranches,
-    singleBranches,
-    addBranches,
-    updateBranches,
-    deleteBranches,
+  viewBranches,
+  singleBranches,
+  addBranches,
+  updateBranches,
+  deleteBranches,
 } = require("./branches/index");
 const {
-    viewBranchUser,
-    singleBranchUser,
-    addBranchUser,
-    updateBranchUser,
-    deleteBranchUser,
+  viewBranchUser,
+  singleBranchUser,
+  addBranchUser,
+  updateBranchUser,
+  deleteBranchUser,
 } = require("./branchUser");
 const {
-    viewClient,
-    singleClient,
-    addClient,
-    updateClient,
-    deleteClient,
+  viewClient,
+  singleClient,
+  addClient,
+  updateClient,
+  deleteClient,
 } = require("./client");
 const {
-    viewCountry,
-    singleCountry,
-    addCountry,
-    updateCountry,
-    deleteCountry,
+  viewClientType,
+  singleClientType,
+  addClientType,
+  updateClientType,
+  deleteClientType,
+} = require("./clientType");
+const {
+  viewCountry,
+  singleCountry,
+  addCountry,
+  updateCountry,
+  deleteCountry,
 } = require("./country");
 const {
-    viewExpense,
-    singleExpense,
-    addExpense,
-    updateExpense,
-    deleteExpense,
+  viewCurrency,
+  singleCurrency,
+  addCurrency,
+  updateCurrency,
+  deleteCurrency,
+} = require("./currency");
+const {
+  viewExpense,
+  singleExpense,
+  addExpense,
+  updateExpense,
+  deleteExpense,
 } = require("./expense");
 const {
-    viewExpenseType,
-    singleExpenseType,
-    addExpenseType,
-    updateExpenseType,
-    deleteExpenseType,
+  viewExpenseType,
+  singleExpenseType,
+  addExpenseType,
+  updateExpenseType,
+  deleteExpenseType,
 } = require("./expenseType");
-const { viewIncome, singleIncome, addIncome, updateIncome, deleteIncome } = require("./income");
 const {
-    viewIncomeType,
-    singleIncomeType,
-    addIncomeType,
-    updateIncomeType,
-    deleteIncomeType,
+  viewIncome,
+  singleIncome,
+  addIncome,
+  updateIncome,
+  deleteIncome,
+} = require("./income");
+const {
+  viewIncomeType,
+  singleIncomeType,
+  addIncomeType,
+  updateIncomeType,
+  deleteIncomeType,
 } = require("./incomeType");
 const {
-    viewPayroll,
-    singlePayroll,
-    addPayroll,
-    updatePayroll,
-    deletePayroll,
+  viewLoanPurpose,
+  singleLoanPurpose,
+  addLoanPurpose,
+  updateLoanPurpose,
+  deleteLoanPurpose,
+} = require("./loanPurpose");
+const {
+  viewPaymentType,
+  singlePaymentType,
+  addPaymentType,
+  updatePaymentType,
+  deletePaymentType,
+} = require("./paymentType");
+const {
+  viewPayroll,
+  singlePayroll,
+  addPayroll,
+  updatePayroll,
+  deletePayroll,
 } = require("./payroll");
 const {
-    viewPayrollItem,
-    singlePayrollItem,
-    addPayrollItem,
-    updatePayrollItem,
-    deletePayrollItem,
+  viewPayrollItem,
+  singlePayrollItem,
+  addPayrollItem,
+  updatePayrollItem,
+  deletePayrollItem,
 } = require("./payrollItem");
 const {
-    viewPayrollTemplate,
-    singlePayrollTemplate,
-    addPayrollTemplate,
-    updatePayrollTemplate,
-    deletePayrollTemplate,
+  viewPayrollTemplate,
+  singlePayrollTemplate,
+  addPayrollTemplate,
+  updatePayrollTemplate,
+  deletePayrollTemplate,
 } = require("./payrollTemplate");
 const {
-    viewRole,
-    singleRole,
-    addRole,
-    updateRole,
-    deleteRole,
+  viewProfessions,
+  singleProfessions,
+  addProfessions,
+  updateProfessions,
+  deleteProfessions,
+} = require("./professions");
+const {
+  viewRole,
+  singleRole,
+  addRole,
+  updateRole,
+  deleteRole,
 } = require("./role");
 const {
-    viewUser,
-    singleUser,
-    addUser,
-    updateUser,
-    deleteUser,
-    viewUserRoleId,
+  viewTitle,
+  singleTitle,
+  addTitle,
+  updateTitle,
+  deleteTitle,
+} = require("./title");
+const {
+  viewUser,
+  singleUser,
+  addUser,
+  updateUser,
+  deleteUser,
+  viewUserRoleId,
 } = require("./user");
 
 // routes
 
 app.get("/", (req, res) => {
-    res.send("BinaryMdeia API");
+  res.send("BinaryMdeia API");
 });
 var version = "/v1";
 
@@ -260,6 +308,48 @@ app.post(version + "/asset", addAsset);
 app.put(version + "/asset", updateAsset);
 app.delete(version + "/asset/:id", deleteAsset);
 
+// client type routes
+app.get(version + "/clientType", viewClientType);
+app.get(version + "/clientType/:id", singleClientType);
+app.post(version + "/clientType", addClientType);
+app.put(version + "/clientType", updateClientType);
+app.delete(version + "/clientType/:id", deleteClientType);
+
+// titles routes
+app.get(version + "/title", viewTitle);
+app.get(version + "/title/:id", singleTitle);
+app.post(version + "/title", addTitle);
+app.put(version + "/title", updateTitle);
+app.delete(version + "/title/:id", deleteTitle);
+
+// professions routes
+app.get(version + "/professions", viewProfessions);
+app.get(version + "/professions/:id", singleProfessions);
+app.post(version + "/professions", addProfessions);
+app.put(version + "/professions", updateProfessions);
+app.delete(version + "/professions/:id", deleteProfessions);
+
+// currency routes
+app.get(version + "/currency", viewCurrency);
+app.get(version + "/currency/:id", singleCurrency);
+app.post(version + "/currency", addCurrency);
+app.put(version + "/currency", updateCurrency);
+app.delete(version + "/currency/:id", deleteCurrency);
+
+// paymentType routes
+app.get(version + "/paymentType", viewPaymentType);
+app.get(version + "/paymentType/:id", singlePaymentType);
+app.post(version + "/paymentType", addPaymentType);
+app.put(version + "/paymentType", updatePaymentType);
+app.delete(version + "/paymentType/:id", deletePaymentType);
+
+// loanPurpose routes
+app.get(version + "/loanPurpose", viewLoanPurpose);
+app.get(version + "/loanPurpose/:id", singleLoanPurpose);
+app.post(version + "/loanPurpose", addLoanPurpose);
+app.put(version + "/loanPurpose", updateLoanPurpose);
+app.delete(version + "/loanPurpose/:id", deleteLoanPurpose);
+
 app.listen(port, () => {
-    console.log("Your Project Running Port is : " + port);
+  console.log("Your Project Running Port is : " + port);
 });
