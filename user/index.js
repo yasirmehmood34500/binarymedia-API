@@ -1,7 +1,25 @@
 module.exports = {
     viewUser: (req, res) => {
         let query =
-            "SELECT id, firstName, lastName,gender,role_id, (SELECT name FROM role WHERE id=user.role_id) AS role ,email,address,notes FROM user WHERE status = 1";
+            "SELECT id, firstName, lastName,gender,role_id, (SELECT name FROM role WHERE id=user.role_id) AS role ,email,address,notes, mobile FROM user WHERE status = 1";
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: result,
+                });
+            }
+        });
+    },
+    viewUserRoleId: (req, res) => {
+        let query =
+            "SELECT id, firstName, lastName,gender,role_id, (SELECT name FROM role WHERE id=user.role_id) AS role ,email,address,notes, mobile FROM user WHERE status = 1 AND role_id ="+req.params.role_id;
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -19,7 +37,7 @@ module.exports = {
     },
     singleUser: (req, res) => {
         let query =
-            "SELECT id, firstName, lastName,gender,role_id,(SELECT name FROM role WHERE id=user.role_id) AS role ,email,address,notes FROM user WHERE id=" +
+            "SELECT id, firstName, lastName,gender,role_id,(SELECT name FROM role WHERE id=user.role_id) AS role ,email,address,notes, mobile FROM user WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -81,6 +99,8 @@ module.exports = {
             req.body.address +
             "', notes='" +
             req.body.notes +
+            "', mobile='" +
+            req.body.mobile +
             "', createAt='" +
             year +
             "-" +
@@ -121,6 +141,8 @@ module.exports = {
             req.body.address +
             "', notes='" +
             req.body.notes +
+            "', mobile='" +
+            req.body.mobile +
             "' WHERE id=" +
             req.body.id;
         db.query(query, (err, result) => {

@@ -1,7 +1,7 @@
 module.exports = {
     viewClient: (req, res) => {
         let query =
-            "SELECT id, branch_id, external_Id, title, firstName, lastName, gender, meritalStatus, mobile, country, dateOfBirth, staff, email, profession, type, photo, address, notes, submittedOn FROM client WHERE status = 1";
+            "SELECT id, branch_id, (SELECT name FROM branch WHERE id=client.branch_id) AS branch_name, external_Id, title, firstName, lastName, gender, maritalStatus, mobile, country_id, (SELECT name FROM country WHERE id=client.country_id) AS country_name, dateOfBirth, user_id, (SELECT firstName FROM user WHERE id=client.user_id) AS user_name, email, profession, type, photo, address, notes, submittedOn FROM client WHERE status = 1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -19,7 +19,7 @@ module.exports = {
     },
     singleClient: (req, res) => {
         let query =
-            "SELECT  id, branch_id, external_Id, title, firstName, lastName, gender, meritalStatus, mobile, country, dateOfBirth, staff, email, profession, type, photo, address, notes, submittedOn  FROM  client WHERE id=" +
+            "SELECT  id, branch_id, (SELECT name FROM branch WHERE id=client.branch_id) AS branch_name, external_Id, title, firstName, lastName, gender, maritalStatus, mobile, country_id, (SELECT name FROM country WHERE id=client.country_id) AS country_name, dateOfBirth, user_id, (SELECT firstName FROM user WHERE id=client.user_id) AS user_name, email, profession, type, photo, address, notes, submittedOn  FROM  client WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -77,16 +77,16 @@ module.exports = {
             req.body.lastName +
             "', gender= '" +
             req.body.gender +
-            "', meritalStatus='" +
-            req.body.meritalStatus +
+            "', maritalStatus='" +
+            req.body.maritalStatus +
             "', mobile='" +
             req.body.mobile +
-            "', country= '" +
-            req.body.country +
+            "', country_id= '" +
+            req.body.country_id +
             "', dateOfBirth='" +
             req.body.dateOfBirth +
-            "', staff='" +
-            req.body.staff +
+            "', user_id='" +
+            req.body.user_id +
             "', email= '" +
             req.body.email +
             "', profession='" +
@@ -137,16 +137,16 @@ module.exports = {
             req.body.lastName +
             "', gender= '" +
             req.body.gender +
-            "', meritalStatus='" +
-            req.body.meritalStatus +
+            "', maritalStatus='" +
+            req.body.maritalStatus +
             "', mobile='" +
             req.body.mobile +
-            "', country= '" +
-            req.body.country +
+            "', country_id= '" +
+            req.body.country_id +
             "', dateOfBirth='" +
             req.body.dateOfBirth +
-            "', staff='" +
-            req.body.staff +
+            "', user_id='" +
+            req.body.user_id +
             "', email= '" +
             req.body.email +
             "', profession='" +
