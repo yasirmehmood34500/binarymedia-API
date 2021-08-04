@@ -182,6 +182,7 @@ const {
   updatePayrollItem,
   deletePayrollItem,
 } = require("./controller/payrollItem");
+const { viewPayrollPayment, singlePayrollPayment, addPayrollPayment, updatePayrollPayment, deletePayrollPayment, payrollPaymentPayrollWise } = require("./controller/payrollPayment");
 const {
   viewPayrollTemplate,
   singlePayrollTemplate,
@@ -316,6 +317,15 @@ app.get(version + "/payrollItem/:id", singlePayrollItem);
 app.post(version + "/payrollItem", addPayrollItem);
 app.put(version + "/payrollItem", updatePayrollItem);
 app.delete(version + "/payrollItem/:id", deletePayrollItem);
+
+// payroll payment routes
+app.get(version + "/payrollPayment", viewPayrollPayment);
+app.get(version + "/payrollPayment/:id", singlePayrollPayment);
+app.get(version + "/payrollPaymentPayrollWise/:id", payrollPaymentPayrollWise);
+app.post(version + "/payrollPayment", addPayrollPayment);
+app.put(version + "/payrollPayment", updatePayrollPayment);
+app.delete(version + "/payrollPayment/:id", deletePayrollPayment);
+
 
 // payroll routes
 app.get(version + "/payroll", viewPayroll);

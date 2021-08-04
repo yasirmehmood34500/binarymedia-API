@@ -1,7 +1,7 @@
 module.exports = {
     viewPayroll: (req, res) => {
       let query =
-        "SELECT id,branch_id, (SELECT name FROM branch WHERE id =payroll.branch_id) AS branch ,user_id, (SELECT firstName FROM user WHERE id =payroll.user_id) AS user,date,payroll_template_id, (SELECT name FROM payroll_templates WHERE id =payroll.payroll_template_id) AS payroll_template ,currency,workDuration,durationUnit,amountPerDuration,totalDurationAmount,allowances,deduction,bankName,recuring,recurFrequency,recurType,recurStartDate,recurEndDate FROM payroll WHERE status = 1";
+        "SELECT id,branch_id, (SELECT name FROM branch WHERE id =payroll.branch_id) AS branch ,user_id, (SELECT firstName FROM user WHERE id =payroll.user_id) AS user,date,payroll_template_id, (SELECT name FROM payroll_templates WHERE id =payroll.payroll_template_id) AS payroll_template ,currency_id, (SELECT name FROM currency WHERE id =payroll.currency_id) AS currency  ,workDuration,durationUnit,amountPerDuration,totalDurationAmount,bankName,recuring,recurFrequency,recurType,recurStartDate,recurEndDate FROM payroll WHERE status = 1";
       db.query(query, (err, result) => {
         if (err) {
           res.status(400).json({
@@ -19,7 +19,7 @@ module.exports = {
     },
     singlePayroll: (req, res) => {
       let query =
-        "SELECT  id,branch_id, (SELECT name FROM branch WHERE id =payroll.branch_id) AS branch ,user_id, (SELECT firstName FROM user WHERE id =payroll.user_id) AS user,date,payroll_template_id, (SELECT name FROM payroll_templates WHERE id =payroll.payroll_template_id) AS payroll_template ,currency,workDuration,durationUnit,amountPerDuration,totalDurationAmount,allowances,deduction,bankName,recuring,recurFrequency,recurType,recurStartDate,recurEndDate   FROM  payroll WHERE id=" +
+        "SELECT  id,branch_id, (SELECT name FROM branch WHERE id =payroll.branch_id) AS branch ,user_id, (SELECT firstName FROM user WHERE id =payroll.user_id) AS user,date,payroll_template_id, (SELECT name FROM payroll_templates WHERE id =payroll.payroll_template_id) AS payroll_template ,currency_id , (SELECT name FROM currency WHERE id =payroll.currency_id) AS currency,workDuration,durationUnit,amountPerDuration,totalDurationAmount,bankName,recuring,recurFrequency,recurType,recurStartDate,recurEndDate   FROM  payroll WHERE id=" +
         req.params.id +
         " AND status =1";
       db.query(query, (err, result) => {
@@ -73,8 +73,8 @@ module.exports = {
         req.body.date +
         "', payroll_template_id='" +
         req.body.payroll_template_id +
-        "', currency= '" +
-        req.body.currency +
+        "', currency_id= '" +
+        req.body.currency_id +
         "', workDuration= '" +
         req.body.workDuration +
         "', durationUnit= '" +
@@ -83,10 +83,7 @@ module.exports = {
         req.body.amountPerDuration +
         "', totalDurationAmount= '" +
         req.body.totalDurationAmount +
-        "', allowances= '" +
-        req.body.allowances +
-        "', deduction= '" +
-        req.body.deduction +
+        
         "', bankName= '" +
         req.body.bankName +
         "', recuring= '" +
@@ -131,8 +128,8 @@ module.exports = {
         req.body.date +
         "', payroll_template_id='" +
         req.body.payroll_template_id +
-        "', currency= '" +
-        req.body.currency +
+        "', currency_id= '" +
+        req.body.currency_id +
         "', workDuration= '" +
         req.body.workDuration +
         "', durationUnit= '" +
@@ -141,10 +138,7 @@ module.exports = {
         req.body.amountPerDuration +
         "', totalDurationAmount= '" +
         req.body.totalDurationAmount +
-        "', allowances= '" +
-        req.body.allowances +
-        "', deduction= '" +
-        req.body.deduction +
+       
         "', bankName= '" +
         req.body.bankName +
         "', recuring= '" +
