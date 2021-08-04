@@ -1,5 +1,3 @@
-const db = require("../db");
-
 module.exports = {
     viewRole: (req, res) => {
         let query = "SELECT id, name FROM role WHERE status = 1";

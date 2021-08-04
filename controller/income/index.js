@@ -1,7 +1,7 @@
 module.exports = {
     viewIncome: (req, res) => {
       let query =
-        "SELECT id, branch_id, (SELECT name FROM branch WHERE id=income.branch_id) AS branch, incomeType_id, (SELECT name FROM income_types WHERE id=income.incomeType_id) AS incomeType, currency, amount, date , incomeAccount, assetAccount, description FROM income WHERE status = 1";
+        "SELECT id, branch_id, (SELECT name FROM branch WHERE id=income.branch_id) AS branch, incomeType_id, (SELECT name FROM income_types WHERE id=income.incomeType_id) AS incomeType, currency_id,  (SELECT name FROM currency WHERE id=income.currency_id) AS currency , amount, date , incomeAccount, assetAccount, description FROM income WHERE status = 1";
       console.log(query);
         db.query(query, (err, result) => {
         if (err) {
@@ -20,7 +20,7 @@ module.exports = {
     },
     singleIncome: (req, res) => {
       let query =
-        "SELECT  id, branch_id, (SELECT name FROM branch WHERE id=income.branch_id) AS branch, incomeType_id, (SELECT name FROM income_types WHERE id=income.incomeType_id) AS incomeType, currency, amount, date , incomeAccount, assetAccount, description FROM income WHERE id=" +
+        "SELECT  id, branch_id, (SELECT name FROM branch WHERE id=income.branch_id) AS branch, incomeType_id, (SELECT name FROM income_types WHERE id=income.incomeType_id) AS incomeType, currency_id, (SELECT name FROM currency WHERE id=income.currency_id) AS currency  , amount, date , incomeAccount, assetAccount, description FROM income WHERE id=" +
         req.params.id +
         " AND status =1";
       db.query(query, (err, result) => {
@@ -70,8 +70,8 @@ module.exports = {
         req.body.branch_id +
         "', incomeType_id	='" +
         req.body.incomeType_id	 +
-        "', currency= '" +
-        req.body.currency +
+        "', currency_id= '" +
+        req.body.currency_id +
         "', amount= '" +
         req.body.amount +
         "', date= '" +
@@ -110,8 +110,8 @@ module.exports = {
         req.body.branch_id +
         "', incomeType_id	='" +
         req.body.incomeType_id	 +
-        "', currency= '" +
-        req.body.currency +
+        "', currency_id= '" +
+        req.body.currency_id +
         "', amount= '" +
         req.body.amount +
         "', date= '" +

@@ -17,154 +17,227 @@ const {
   viewJournalEntries,
   singleJournalEntries,
   deleteJournalEntries,
-} = require("./accounting/index");
+} = require("./controller/accounting/index");
 const {
   viewActivityLogs,
   singleActivityLogs,
   addActivityLogs,
   updateActivityLogs,
   deleteActivityLogs,
-} = require("./activityLogs");
+} = require("./controller/activityLogs");
 const {
   viewAsset,
   singleAsset,
   addAsset,
   updateAsset,
   deleteAsset,
-} = require("./asset");
+} = require("./controller/asset");
 const {
   viewAssetType,
   singleAssetType,
   addAssetType,
   updateAssetType,
   deleteAssetType,
-} = require("./assetType");
+} = require("./controller/assetType");
 const {
   viewBranches,
   singleBranches,
   addBranches,
   updateBranches,
   deleteBranches,
-} = require("./branches/index");
+} = require("./controller/branches/index");
 const {
   viewBranchUser,
   singleBranchUser,
   addBranchUser,
   updateBranchUser,
   deleteBranchUser,
-} = require("./branchUser");
+} = require("./controller/branchUser");
+const {
+  viewChargeOnLoan,
+  singleChargeOnLoan,
+  addChargeOnLoan,
+  updateChargeOnLoan,
+  deleteChargeOnLoan,
+} = require("./controller/chargeOnLoan");
+const {
+  viewChargeOnSaving,
+  singleChargeOnSaving,
+  addChargeOnSaving,
+  updateChargeOnSaving,
+  deleteChargeOnSaving,
+} = require("./controller/chargeOnSaving");
 const {
   viewClient,
   singleClient,
   addClient,
   updateClient,
   deleteClient,
-} = require("./client");
+} = require("./controller/client");
 const {
   viewClientType,
   singleClientType,
   addClientType,
   updateClientType,
   deleteClientType,
-} = require("./clientType");
+} = require("./controller/clientType");
 const {
   viewCountry,
   singleCountry,
   addCountry,
   updateCountry,
   deleteCountry,
-} = require("./country");
+} = require("./controller/country");
 const {
   viewCurrency,
   singleCurrency,
   addCurrency,
   updateCurrency,
   deleteCurrency,
-} = require("./currency");
+} = require("./controller/currency");
 const {
   viewExpense,
   singleExpense,
   addExpense,
   updateExpense,
   deleteExpense,
-} = require("./expense");
+} = require("./controller/expense");
 const {
   viewExpenseType,
   singleExpenseType,
   addExpenseType,
   updateExpenseType,
   deleteExpenseType,
-} = require("./expenseType");
+} = require("./controller/expenseType");
+const { viewFunds, singleFunds, addFunds, updateFunds, deleteFunds } = require("./controller/funds");
+const {
+  viewGeneralSetting,
+  singleGeneralSetting,
+  addGeneralSetting,
+  updateGeneralSetting,
+  deleteGeneralSetting,
+  singleGeneralSettingUser,
+  updateGeneralSettingUser,
+} = require("./controller/generalSetting");
 const {
   viewIncome,
   singleIncome,
   addIncome,
   updateIncome,
   deleteIncome,
-} = require("./income");
+} = require("./controller/income");
 const {
   viewIncomeType,
   singleIncomeType,
   addIncomeType,
   updateIncomeType,
   deleteIncomeType,
-} = require("./incomeType");
+} = require("./controller/incomeType");
+const {
+  viewLoan,
+  singleLoan,
+  addLoan,
+  updateLoan,
+  deleteLoan,
+} = require("./controller/loan");
+const {
+  viewLoanCharges,
+  singleLoanCharges,
+  addLoanCharges,
+  updateLoanCharges,
+  deleteLoanCharges,
+} = require("./controller/loanCharges");
+const {
+  viewLoanProduct,
+  singleLoanProduct,
+  addLoanProduct,
+  updateLoanProduct,
+  deleteLoanProduct,
+} = require("./controller/loanProduct");
 const {
   viewLoanPurpose,
   singleLoanPurpose,
   addLoanPurpose,
   updateLoanPurpose,
   deleteLoanPurpose,
-} = require("./loanPurpose");
+} = require("./controller/loanPurpose");
 const {
   viewPaymentType,
   singlePaymentType,
   addPaymentType,
   updatePaymentType,
   deletePaymentType,
-} = require("./paymentType");
+} = require("./controller/paymentType");
 const {
   viewPayroll,
   singlePayroll,
   addPayroll,
   updatePayroll,
   deletePayroll,
-} = require("./payroll");
+} = require("./controller/payroll");
 const {
   viewPayrollItem,
   singlePayrollItem,
   addPayrollItem,
   updatePayrollItem,
   deletePayrollItem,
-} = require("./payrollItem");
+} = require("./controller/payrollItem");
 const {
   viewPayrollTemplate,
   singlePayrollTemplate,
   addPayrollTemplate,
   updatePayrollTemplate,
   deletePayrollTemplate,
-} = require("./payrollTemplate");
+} = require("./controller/payrollTemplate");
 const {
   viewProfessions,
   singleProfessions,
   addProfessions,
   updateProfessions,
   deleteProfessions,
-} = require("./professions");
+} = require("./controller/professions");
 const {
   viewRole,
   singleRole,
   addRole,
   updateRole,
   deleteRole,
-} = require("./role");
+} = require("./controller/role");
+const {
+  viewSaving,
+  singleSaving,
+  addSaving,
+  updateSaving,
+  deleteSaving,
+} = require("./controller/saving");
+const {
+  viewSavingCharges,
+  singleSavingCharges,
+  addSavingCharges,
+  updateSavingCharges,
+  deleteSavingCharges,
+} = require("./controller/savingCharges");
+const {
+  viewSavingProduct,
+  singleSavingProduct,
+  addSavingProduct,
+  updateSavingProduct,
+  deleteSavingProduct,
+} = require("./controller/savingProduct");
+const {
+  viewTimeZone,
+  singleTimeZone,
+  addTimeZone,
+  updateTimeZone,
+  deleteTimeZone,
+} = require("./controller/timeZone");
 const {
   viewTitle,
   singleTitle,
   addTitle,
   updateTitle,
   deleteTitle,
-} = require("./title");
+} = require("./controller/title");
 const {
   viewUser,
   singleUser,
@@ -172,7 +245,7 @@ const {
   updateUser,
   deleteUser,
   viewUserRoleId,
-} = require("./user");
+} = require("./controller/user");
 
 // routes
 
@@ -223,6 +296,13 @@ app.post(version + "/country", addCountry);
 app.put(version + "/country", updateCountry);
 app.delete(version + "/country/:id", deleteCountry);
 
+// time zone routes
+app.get(version + "/timeZone", viewTimeZone);
+app.get(version + "/timeZone/:id", singleTimeZone);
+app.post(version + "/timeZone", addTimeZone);
+app.put(version + "/timeZone", updateTimeZone);
+app.delete(version + "/timeZone/:id", deleteTimeZone);
+
 // payroll template routes
 app.get(version + "/payrollTemplate", viewPayrollTemplate);
 app.get(version + "/payrollTemplate/:id", singlePayrollTemplate);
@@ -264,6 +344,15 @@ app.get(version + "/incomeType/:id", singleIncomeType);
 app.post(version + "/incomeType", addIncomeType);
 app.put(version + "/incomeType", updateIncomeType);
 app.delete(version + "/incomeType/:id", deleteIncomeType);
+
+// general setting routes
+app.get(version + "/generalSetting", viewGeneralSetting);
+app.get(version + "/generalSetting/:id", singleGeneralSetting);
+app.get(version + "/generalSettingUser/:id", singleGeneralSettingUser);
+app.put(version + "/generalSettingUser", updateGeneralSettingUser);
+app.post(version + "/generalSetting", addGeneralSetting);
+app.put(version + "/generalSetting", updateGeneralSetting);
+app.delete(version + "/generalSetting/:id", deleteGeneralSetting);
 
 // income  routes
 app.get(version + "/income", viewIncome);
@@ -323,11 +412,11 @@ app.put(version + "/title", updateTitle);
 app.delete(version + "/title/:id", deleteTitle);
 
 // professions routes
-app.get(version + "/professions", viewProfessions);
-app.get(version + "/professions/:id", singleProfessions);
-app.post(version + "/professions", addProfessions);
-app.put(version + "/professions", updateProfessions);
-app.delete(version + "/professions/:id", deleteProfessions);
+app.get(version + "/profession", viewProfessions);
+app.get(version + "/profession/:id", singleProfessions);
+app.post(version + "/profession", addProfessions);
+app.put(version + "/profession", updateProfessions);
+app.delete(version + "/profession/:id", deleteProfessions);
 
 // currency routes
 app.get(version + "/currency", viewCurrency);
@@ -349,6 +438,69 @@ app.get(version + "/loanPurpose/:id", singleLoanPurpose);
 app.post(version + "/loanPurpose", addLoanPurpose);
 app.put(version + "/loanPurpose", updateLoanPurpose);
 app.delete(version + "/loanPurpose/:id", deleteLoanPurpose);
+
+// loan product routes
+app.get(version + "/loanProduct", viewLoanProduct);
+app.get(version + "/loanProduct/:id", singleLoanProduct);
+app.post(version + "/loanProduct", addLoanProduct);
+app.put(version + "/loanProduct", updateLoanProduct);
+app.delete(version + "/loanProduct/:id", deleteLoanProduct);
+
+// loan charges routes
+app.get(version + "/loanCharges", viewLoanCharges);
+app.get(version + "/loanCharges/:id", singleLoanCharges);
+app.post(version + "/loanCharges", addLoanCharges);
+app.put(version + "/loanCharges", updateLoanCharges);
+app.delete(version + "/loanCharges/:id", deleteLoanCharges);
+
+// loan  routes
+app.get(version + "/loan", viewLoan);
+app.get(version + "/loan/:id", singleLoan);
+app.post(version + "/loan", addLoan);
+app.put(version + "/loan", updateLoan);
+app.delete(version + "/loan/:id", deleteLoan);
+
+// charge on loan
+app.get(version + "/chargeOnLoan", viewChargeOnLoan);
+app.get(version + "/chargeOnLoan/:id", singleChargeOnLoan);
+app.post(version + "/chargeOnLoan", addChargeOnLoan);
+app.put(version + "/chargeOnLoan", updateChargeOnLoan);
+app.delete(version + "/chargeOnLoan/:id", deleteChargeOnLoan);
+
+// saving charges routes
+app.get(version + "/savingCharges", viewSavingCharges);
+app.get(version + "/savingCharges/:id", singleSavingCharges);
+app.post(version + "/savingCharges", addSavingCharges);
+app.put(version + "/savingCharges", updateSavingCharges);
+app.delete(version + "/savingCharges/:id", deleteSavingCharges);
+
+// saving product routes
+app.get(version + "/savingProduct", viewSavingProduct);
+app.get(version + "/savingProduct/:id", singleSavingProduct);
+app.post(version + "/savingProduct", addSavingProduct);
+app.put(version + "/savingProduct", updateSavingProduct);
+app.delete(version + "/savingProduct/:id", deleteSavingProduct);
+
+// saving  routes
+app.get(version + "/saving", viewSaving);
+app.get(version + "/saving/:id", singleSaving);
+app.post(version + "/saving", addSaving);
+app.put(version + "/saving", updateSaving);
+app.delete(version + "/saving/:id", deleteSaving);
+
+// charge on saving  routes
+app.get(version + "/chargeOnSaving", viewChargeOnSaving);
+app.get(version + "/chargeOnSaving/:id", singleChargeOnSaving);
+app.post(version + "/chargeOnSaving", addChargeOnSaving);
+app.put(version + "/chargeOnSaving", updateChargeOnSaving);
+app.delete(version + "/chargeOnSaving/:id", deleteChargeOnSaving);
+
+// funds  routes
+app.get(version + "/funds", viewFunds);
+app.get(version + "/funds/:id", singleFunds);
+app.post(version + "/funds", addFunds);
+app.put(version + "/funds", updateFunds);
+app.delete(version + "/funds/:id", deleteFunds);
 
 app.listen(port, () => {
   console.log("Your Project Running Port is : " + port);
