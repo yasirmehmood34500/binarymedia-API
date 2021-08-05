@@ -140,7 +140,7 @@ module.exports = {
 
     viewJournalEntries: (req, res) => {
         let query =
-            "SELECT id, (SELECT name FROM branch WHERE id=journal_entries.branch_id) AS  branch, country,amount,debit,credit,date,reference,paymentType,accountNo,chequeNo,routingCode,receiptNo,bankNo,notes FROM journal_entries WHERE status =1";
+            "SELECT id, (SELECT name FROM branch WHERE id=journal_entries.branch_id) AS  branch, country_id, (SELECT name FROM country WHERE id=journal_entries.country_id) AS country , user_id, (SELECT firstName FROM user WHERE id=journal_entries.user_id) AS user , amount,debit,credit,date,reference,paymentType_id, (SELECT name FROM payment_type WHERE id=journal_entries.paymentType_id) AS paymentType , accountNo,chequeNo,routingCode,receiptNo,bankNo,notes FROM journal_entries WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -158,7 +158,7 @@ module.exports = {
     },
     singleJournalEntries: (req, res) => {
         let query =
-            "SELECT id, (SELECT name FROM branch WHERE id=journal_entries.branch_id) AS  branch,country,amount,debit,credit,date,reference,paymentType,accountNo,chequeNo,routingCode,receiptNo,bankNo,notes FROM journal_entries WHERE id=" +
+            "SELECT id, (SELECT name FROM branch WHERE id=journal_entries.branch_id) AS  branch,country_id, (SELECT name FROM country WHERE id=journal_entries.country_id) AS country ,user_id, (SELECT firstName FROM user WHERE id=journal_entries.user_id) AS user , amount,debit,credit,date,reference,paymentType_id, (SELECT name FROM payment_type WHERE id=journal_entries.paymentType_id) AS paymentType , accountNo,chequeNo,routingCode,receiptNo,bankNo,notes FROM journal_entries WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -206,8 +206,10 @@ module.exports = {
         let query =
             "INSERT INTO journal_entries SET branch_id='" +
             req.body.branch_id +
-            "', country='" +
-            req.body.country +
+            "', country_id='" +
+            req.body.country_id +
+            "', user_id='" +
+            req.body.user_id +
             "', amount= '" +
             req.body.amount +
             "', debit='" +
@@ -218,8 +220,8 @@ module.exports = {
             req.body.date +
             "', reference='" +
             req.body.reference +
-            "', paymentType='" +
-            req.body.paymentType +
+            "', paymentType_id='" +
+            req.body.paymentType_id +
             "', accountNo= '" +
             req.body.accountNo +
             "', chequeNo='" +
@@ -258,8 +260,10 @@ module.exports = {
         let query =
             "UPDATE journal_entries SET branch_id='" +
             req.body.branch_id +
-            "', country='" +
-            req.body.country +
+            "', country_id='" +
+            req.body.country_id +
+            "', user_id='" +
+            req.body.user_id +
             "', amount= '" +
             req.body.amount +
             "', debit='" +
@@ -270,8 +274,8 @@ module.exports = {
             req.body.date +
             "', reference='" +
             req.body.reference +
-            "', paymentType='" +
-            req.body.paymentType +
+            "', paymentType_id='" +
+            req.body.paymentType_id +
             "', accountNo= '" +
             req.body.accountNo +
             "', chequeNo='" +
