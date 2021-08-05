@@ -21,7 +21,7 @@ module.exports = {
     
     payrollPaymentPayrollWise: (req, res) => {
         let query =
-            "SELECT id, amount, date,  paymentType_id, (SELECT name FROm payment_type WHERE id=payroll_payment.paymentType_id) AS paymentType, account, cheque, routingCode, receipt, bank, description FROM payroll_payment WHERE status =1 AND paymentType_id = "+req.params.id;
+            "SELECT id, amount, date,  paymentType_id, (SELECT name FROm payment_type WHERE id=payroll_payment.paymentType_id) AS paymentType, account, cheque, routingCode, receipt, bank, description FROM payroll_payment WHERE status =1 AND payroll_id = "+req.params.id;
         
             db.query(query, (err, result) => {
             if (err) {
@@ -89,6 +89,8 @@ module.exports = {
         let query =
             "INSERT INTO  payroll_payment SET amount='" +
             req.body.amount +
+            "', payroll_id='" +
+            req.body.payroll_id +
             "', date='" +
             req.body.date +
             "', paymentType_id='" +
@@ -132,6 +134,8 @@ module.exports = {
         let query =
             "UPDATE payroll_payment SET amount='" +
             req.body.amount +
+            "', payroll_id='" +
+            req.body.payroll_id +
             "', date='" +
             req.body.date +
             "', paymentType_id='" +
