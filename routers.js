@@ -134,6 +134,13 @@ const {
   addLoan,
   updateLoan,
   deleteLoan,
+  loanApprove,
+  loanDisburse,
+  loanChangeOfficer,
+  loanUndoDisburse,
+  loanUndoApprovel,
+  loanWithdraw,
+  loanReject,
 } = require("./controller/loan");
 const {
   viewLoanCharges,
@@ -141,6 +148,8 @@ const {
   addLoanCharges,
   updateLoanCharges,
   deleteLoanCharges,
+  viewLoanChargesCurrencyWise,
+  viewLoanChargesCurrencyAndProductWise,
 } = require("./controller/loanCharges");
 const {
   viewLoanProduct,
@@ -149,6 +158,7 @@ const {
   updateLoanProduct,
   deleteLoanProduct,
 } = require("./controller/loanProduct");
+const { viewLoanProductCharges, singleLoanProductCharges, addLoanProductCharges, updateLoanProductCharges, deleteLoanProductCharges, viewLoanProductChargesProductWise } = require("./controller/loanProductCharges");
 const {
   viewLoanPurpose,
   singleLoanPurpose,
@@ -451,9 +461,19 @@ router.post(version + "/loanProduct", addLoanProduct);
 router.put(version + "/loanProduct", updateLoanProduct);
 router.delete(version + "/loanProduct/:id", deleteLoanProduct);
 
+// loan product charges routes
+router.get(version + "/loanProductCharges", viewLoanProductCharges);
+router.get(version + "/loanProductChargesProductWise/:loan_products_id", viewLoanProductChargesProductWise);
+router.get(version + "/loanProductCharges/:id", singleLoanProductCharges);
+router.post(version + "/loanProductCharges", addLoanProductCharges);
+router.put(version + "/loanProductCharges", updateLoanProductCharges);
+router.delete(version + "/loanProductCharges/:id", deleteLoanProductCharges);
+
 // loan charges routes
 router.get(version + "/loanCharges", viewLoanCharges);
 router.get(version + "/loanCharges/:id", singleLoanCharges);
+router.get(version + "/loanChargesCurrencyWise/:id", viewLoanChargesCurrencyWise);
+router.get(version + "/loanChargesCurrencyProductWise/:loan_products_id/:currency_id", viewLoanChargesCurrencyAndProductWise);
 router.post(version + "/loanCharges", addLoanCharges);
 router.put(version + "/loanCharges", updateLoanCharges);
 router.delete(version + "/loanCharges/:id", deleteLoanCharges);
@@ -462,8 +482,16 @@ router.delete(version + "/loanCharges/:id", deleteLoanCharges);
 router.get(version + "/loan", viewLoan);
 router.get(version + "/loan/:id", singleLoan);
 router.post(version + "/loan", addLoan);
+router.post(version + "/loanApprove", loanApprove);
+router.post(version + "/loanDisburse", loanDisburse);
+router.post(version + "/loanChangeOfficer", loanChangeOfficer);
+router.post(version + "/loanUndoDisburse", loanUndoDisburse);
+router.post(version + "/loanUndoApprovel", loanUndoApprovel);
+router.post(version + "/loanWithdraw", loanWithdraw);
+router.post(version + "/loanReject", loanReject);
 router.put(version + "/loan", updateLoan);
 router.delete(version + "/loan/:id", deleteLoan);
+
 
 // charge on loan
 router.get(version + "/chargeOnLoan", viewChargeOnLoan);

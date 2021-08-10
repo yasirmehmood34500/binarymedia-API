@@ -1,7 +1,7 @@
 module.exports = {
-    viewLoanCharges: (req, res) => {
+    viewLoanProductCharges: (req, res) => {
         let query =
-            "SELECT id, name, chargeType, amount, chargeOption, currency_id, (SELECT name FROM currency WHERE id=loan_charges.currency_id) AS currency, penalty, override, active FROM loan_charges WHERE status =1";
+            "SELECT id, loan_charges_id, loan_products_id FROM  loan_product_charges WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -17,10 +17,12 @@ module.exports = {
             }
         });
     },
-    viewLoanChargesCurrencyAndProductWise: (req, res) => {
+
+    viewLoanProductChargesProductWise: (req, res) => {
         let query =
-            "SELECT loan_charges.id, loan_charges.name , (SELECT loan_charges_id  FROM loan_product_charges WHERE loan_charges_id=loan_charges.id AND loan_products_id="+req.params.loan_products_id+" AND status=1 LIMIT 1) AS loan_charges_id  FROM loan_charges WHERE loan_charges.currency_id="+req.params.currency_id+" AND status=1";
-            db.query(query, (err, result) => {
+            "SELECT id, loan_charges_id, loan_products_id, (SELECT currency_id FROM loan_products WHERE id =loan_product_charges.loan_products_id) AS currency_id FROM  loan_product_charges WHERE status =1 AND loan_products_id ="+req.params.loan_products_id;
+            
+        db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
                     success: false,
@@ -35,28 +37,9 @@ module.exports = {
             }
         });
     },
-    viewLoanChargesCurrencyWise: (req, res) => {
+    singleLoanProductCharges: (req, res) => {
         let query =
-            "SELECT id, name, chargeType, amount, chargeOption, currency_id, (SELECT name FROM currency WHERE id=loan_charges.currency_id) AS currency, penalty, override, active FROM loan_charges WHERE status =1 AND currency_id ="+req.params.id;
-        console.log(query);
-            db.query(query, (err, result) => {
-            if (err) {
-                res.status(400).json({
-                    success: false,
-                    message: "Something is really bad happens",
-                });
-            } else {
-                res.status(200).json({
-                    success: true,
-                    message: "Success",
-                    result: result,
-                });
-            }
-        });
-    },
-    singleLoanCharges: (req, res) => {
-        let query =
-            "SELECT  id, name, chargeType, amount, chargeOption, currency_id, (SELECT name FROM currency WHERE id=loan_charges.currency_id) AS currency, penalty, override, active FROM loan_charges WHERE id=" +
+            "SELECT id, loan_charges_id, loan_products_id FROM  loan_product_charges WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -74,9 +57,9 @@ module.exports = {
             }
         });
     },
-    deleteLoanCharges: (req, res) => {
+    deleteLoanProductCharges: (req, res) => {
         let query =
-            "UPDATE loan_charges  SET status = 0 WHERE id=" +
+            "UPDATE  loan_product_charges  SET status = 0 WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -94,7 +77,7 @@ module.exports = {
             }
         });
     },
-    addLoanCharges: (req, res) => {
+    addLoanProductCharges: (req, res) => {
         let ts = Date.now();
 
         let date_ob = new Date(ts);
@@ -102,23 +85,10 @@ module.exports = {
         let month = date_ob.getMonth() + 1;
         let year = date_ob.getFullYear();
         let query =
-            "INSERT INTO  loan_charges SET name='" +
-            req.body.name +
-            "', chargeType='" +
-            req.body.chargeType +
-            "', amount='" +
-            req.body.amount +
-            "', chargeOption='" +
-            req.body.chargeOption +
-            "', currency_id='" +
-            req.body.currency_id +
-            "', penalty='" +
-            req.body.penalty +
-            "', override='" +
-            req.body.override +
-            "', active='" +
-            req.body.active +
-
+            "INSERT INTO   loan_product_charges SET loan_charges_id='" +
+            req.body.loan_charges_id +
+            "', loan_products_id='" +
+            req.body.loan_products_id +
            
             "', createAt='" +
             year +
@@ -142,24 +112,13 @@ module.exports = {
             }
         });
     },
-    updateLoanCharges: (req, res) => {
+    updateLoanProductCharges: (req, res) => {
         let query =
-            "UPDATE loan_charges SET name='" +
-            req.body.name +
-            "', chargeType='" +
-            req.body.chargeType +
-            "', amount='" +
-            req.body.amount +
-            "', chargeOption='" +
-            req.body.chargeOption +
-            "', currency_id='" +
-            req.body.currency_id +
-            "', penalty='" +
-            req.body.penalty +
-            "', override='" +
-            req.body.override +
-            "', active='" +
-            req.body.active +
+            "UPDATE  loan_product_charges SET loan_charges_id='" +
+            req.body.loan_charges_id +
+            "', loan_products_id='" +
+            req.body.loan_products_id +
+           
            
             "' WHERE id=" +
             req.body.id;

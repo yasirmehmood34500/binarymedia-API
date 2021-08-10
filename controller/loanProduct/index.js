@@ -1,7 +1,7 @@
 module.exports = {
     viewLoanProduct: (req, res) => {
         let query =
-            "SELECT id, name, shortName, description, funds_id, (SELECT name FROM funds WHERE id=loan_products.funds_id) AS funds, currency_id, decimalPlaces, defaultPrincipal, minimumPrincipal, maximumPrincipal, defaultLoanTerm, minimumLoanTerm, maximumLoanTerm, repaymentFrequency, type, defaultInterestRate, minimumInterestRate, maximumInterestRate, interestRateType, graceOnPrincipalPayment, graceOnInterestPayment, graceOnInterestCharged, interestMethodology, amortizationMethod, loanTransactionProcessingStrategy, charges, creditCheck, accountingRule, fundSource, loanPortfolio, overpayments, suspendedIncome, incomeFromInterest, incomeFromPenalties, incomeFromFees, incomeFromRecovery, lossesWrittenOff, interestWrittenOff, autoDisburse, graceOnPrincipalPay, active FROM loan_products WHERE status =1";
+            "SELECT id, name, shortName, description, funds_id, (SELECT name FROM funds WHERE id=loan_products.funds_id) AS funds, currency_id, decimalPlaces, defaultPrincipal, minimumPrincipal, maximumPrincipal, defaultLoanTerm, minimumLoanTerm, maximumLoanTerm, repaymentFrequency, type, defaultInterestRate, minimumInterestRate, maximumInterestRate, interestRateType, graceOnPrincipalPayment, graceOnInterestPayment, graceOnInterestCharged, interestMethodology, amortizationMethod, loanTransactionProcessingStrategy,  creditCheck, accountingRule, fundSource, loanPortfolio, overpayments, suspendedIncome, incomeFromInterest, incomeFromPenalties, incomeFromFees, incomeFromRecovery, lossesWrittenOff, interestWrittenOff, autoDisburse, graceOnPrincipalPay, active FROM loan_products WHERE status =1";
             db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -19,7 +19,7 @@ module.exports = {
     },
     singleLoanProduct: (req, res) => {
         let query =
-            "SELECT id, name, shortName, description, funds_id, (SELECT name FROM funds WHERE id=loan_products.funds_id) AS funds, currency_id, decimalPlaces, defaultPrincipal, minimumPrincipal, maximumPrincipal, defaultLoanTerm, minimumLoanTerm, maximumLoanTerm, repaymentFrequency, type, defaultInterestRate, minimumInterestRate, maximumInterestRate, interestRateType, graceOnPrincipalPayment, graceOnInterestPayment, graceOnInterestCharged, interestMethodology, amortizationMethod, loanTransactionProcessingStrategy, charges, creditCheck, accountingRule, fundSource, loanPortfolio, overpayments, suspendedIncome, incomeFromInterest, incomeFromPenalties, incomeFromFees, incomeFromRecovery, lossesWrittenOff, interestWrittenOff, autoDisburse, graceOnPrincipalPay, active FROM loan_products WHERE id=" +
+            "SELECT id, name, shortName, description, funds_id, (SELECT name FROM funds WHERE id=loan_products.funds_id) AS funds, currency_id, decimalPlaces, defaultPrincipal, minimumPrincipal, maximumPrincipal, defaultLoanTerm, minimumLoanTerm, maximumLoanTerm, repaymentFrequency, type, defaultInterestRate, minimumInterestRate, maximumInterestRate, interestRateType, graceOnPrincipalPayment, graceOnInterestPayment, graceOnInterestCharged, interestMethodology, amortizationMethod, loanTransactionProcessingStrategy,  creditCheck, accountingRule, fundSource, loanPortfolio, overpayments, suspendedIncome, incomeFromInterest, incomeFromPenalties, incomeFromFees, incomeFromRecovery, lossesWrittenOff, interestWrittenOff, autoDisburse, graceOnPrincipalPay, active FROM loan_products WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -113,8 +113,7 @@ module.exports = {
             req.body.amortizationMethod +
             "', loanTransactionProcessingStrategy='" +
             req.body.loanTransactionProcessingStrategy +
-            "', charges='" +
-            req.body.charges +
+            
             "', creditCheck='" +
             req.body.creditCheck +
             "', accountingRule='" +
@@ -165,6 +164,7 @@ module.exports = {
                     success: true,
                     message: "Success",
                     result: "Successfully Added",
+                    insertedId: result.insertId,
                 });
             }
         });
@@ -219,8 +219,7 @@ module.exports = {
             req.body.amortizationMethod +
             "', loanTransactionProcessingStrategy='" +
             req.body.loanTransactionProcessingStrategy +
-            "', charges='" +
-            req.body.charges +
+           
             "', creditCheck='" +
             req.body.creditCheck +
             "', accountingRule='" +
