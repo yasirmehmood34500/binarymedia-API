@@ -77,6 +77,14 @@ const {
   deleteClientType,
 } = require("./controller/clientType");
 const {
+  viewcollateralType,
+  viewCollateralType,
+  singleCollateralType,
+  addCollateralType,
+  updateCollateralType,
+  deleteCollateralType,
+} = require("./controller/collateralType");
+const {
   viewCountry,
   singleCountry,
   addCountry,
@@ -166,7 +174,17 @@ const {
   viewLoanChargesCurrencyWise,
   viewLoanChargesCurrencyAndProductWise,
 } = require("./controller/loanCharges");
-const { viewLoanGuarantorList, singleLoanGuarantorList, addLoanGuarantorList, updateLoanGuarantorList, deleteLoanGuarantorList, viewLoanGuarantorListLoanWise } = require("./controller/loanGuarantorList");
+const { viewLoanCollateralList, singleLoanCollateralList, addLoanCollateralList, updateLoanCollateralList, deleteLoanCollateralList, viewLoanCollateralListLoanWise } = require("./controller/loanCollateralList");
+const { viewLoanFilesList, singleLoanFilesList, addLoanFilesList, updateLoanFilesList, deleteLoanFilesList, viewLoanFilesListLoanWise } = require("./controller/loanFilesList");
+const {
+  viewLoanGuarantorList,
+  singleLoanGuarantorList,
+  addLoanGuarantorList,
+  updateLoanGuarantorList,
+  deleteLoanGuarantorList,
+  viewLoanGuarantorListLoanWise,
+} = require("./controller/loanGuarantorList");
+const { viewLoanNoteList, singleLoanNoteList, viewLoanNoteListLoanWise, addLoanNoteList, updateLoanNoteList, deleteLoanNoteList } = require("./controller/loanNoteList");
 const {
   viewLoanProduct,
   singleLoanProduct,
@@ -459,6 +477,13 @@ router.post(version + "/title", addTitle);
 router.put(version + "/title", updateTitle);
 router.delete(version + "/title/:id", deleteTitle);
 
+// titles routes
+router.get(version + "/collateralType", viewCollateralType);
+router.get(version + "/collateralType/:id", singleCollateralType);
+router.post(version + "/collateralType", addCollateralType);
+router.put(version + "/collateralType", updateCollateralType);
+router.delete(version + "/collateralType/:id", deleteCollateralType);
+
 // professions routes
 router.get(version + "/profession", viewProfessions);
 router.get(version + "/profession/:id", singleProfessions);
@@ -491,11 +516,13 @@ router.delete(version + "/loanPurpose/:id", deleteLoanPurpose);
 router.get(version + "/loanChargeList", viewLoanChargeList);
 router.get(version + "/loanChargeList/:id", singleLoanChargeList);
 router.post(version + "/loanChargeListWaiveCharge", loanChargeListWaiveCharge);
-router.get(version + "/loanChargeListLoanWise/:loan_id", viewLoanChargeListLoanWise);
+router.get(
+  version + "/loanChargeListLoanWise/:loan_id",
+  viewLoanChargeListLoanWise
+);
 router.post(version + "/loanChargeList", addLoanChargeList);
 router.put(version + "/loanChargeList", updateLoanChargeList);
 router.delete(version + "/loanChargeList/:id", deleteLoanChargeList);
-
 
 // loan product routes
 router.get(version + "/loanProduct", viewLoanProduct);
@@ -507,11 +534,46 @@ router.delete(version + "/loanProduct/:id", deleteLoanProduct);
 // loan guarantor routes
 router.get(version + "/loanGuarantorList", viewLoanGuarantorList);
 router.get(version + "/loanGuarantorList/:id", singleLoanGuarantorList);
-router.get(version + "/loanGuarantorListLoanWise/:loan_id", viewLoanGuarantorListLoanWise);
+router.get(
+  version + "/loanGuarantorListLoanWise/:loan_id",
+  viewLoanGuarantorListLoanWise
+);
 router.post(version + "/loanGuarantorList", addLoanGuarantorList);
 router.put(version + "/loanGuarantorList", updateLoanGuarantorList);
 router.delete(version + "/loanGuarantorList/:id", deleteLoanGuarantorList);
 
+// loan files routes
+router.get(version + "/loanfilesList", viewLoanFilesList);
+router.get(version + "/loanfilesList/:id", singleLoanFilesList);
+router.get(
+  version + "/loanfilesListLoanWise/:loan_id",
+  viewLoanFilesListLoanWise
+);
+router.post(version + "/loanfilesList", addLoanFilesList);
+router.put(version + "/loanfilesList", updateLoanFilesList);
+router.delete(version + "/loanfilesList/:id", deleteLoanFilesList);
+
+// loan collateral routes
+router.get(version + "/loanCollateralList", viewLoanCollateralList);
+router.get(version + "/loanCollateralList/:id", singleLoanCollateralList);
+router.get(
+  version + "/loanCollateralListLoanWise/:loan_id",
+  viewLoanCollateralListLoanWise
+);
+router.post(version + "/loanCollateralList", addLoanCollateralList);
+router.put(version + "/loanCollateralList", updateLoanCollateralList);
+router.delete(version + "/loanCollateralList/:id", deleteLoanCollateralList);
+
+// loan note routes
+router.get(version + "/loanNoteList", viewLoanNoteList);
+router.get(version + "/loanNoteList/:id", singleLoanNoteList);
+router.get(
+  version + "/loanNoteListLoanWise/:loan_id",
+  viewLoanNoteListLoanWise
+);
+router.post(version + "/loanNoteList", addLoanNoteList);
+router.put(version + "/loanNoteList", updateLoanNoteList);
+router.delete(version + "/loanNoteList/:id", deleteLoanNoteList);
 
 // loan product charges routes
 router.get(version + "/loanProductCharges", viewLoanProductCharges);
@@ -519,7 +581,10 @@ router.get(
   version + "/loanProductChargesProductWise/:loan_products_id",
   viewLoanProductChargesProductWise
 );
-router.get(version + "/loanProductChargesLoanWise/:loan_id", viewLoanProductChargesLoanWise);
+router.get(
+  version + "/loanProductChargesLoanWise/:loan_id",
+  viewLoanProductChargesLoanWise
+);
 router.get(version + "/loanProductCharges/:id", singleLoanProductCharges);
 router.post(version + "/loanProductCharges", addLoanProductCharges);
 router.put(version + "/loanProductCharges", updateLoanProductCharges);
