@@ -104,7 +104,13 @@ const {
   updateExpenseType,
   deleteExpenseType,
 } = require("./controller/expenseType");
-const { viewFunds, singleFunds, addFunds, updateFunds, deleteFunds } = require("./controller/funds");
+const {
+  viewFunds,
+  singleFunds,
+  addFunds,
+  updateFunds,
+  deleteFunds,
+} = require("./controller/funds");
 const {
   viewGeneralSetting,
   singleGeneralSetting,
@@ -143,6 +149,14 @@ const {
   loanReject,
 } = require("./controller/loan");
 const {
+  viewLoanChargeList,
+  singleLoanChargeList,
+  addLoanChargeList,
+  updateLoanChargeList,
+  deleteLoanChargeList,
+  viewLoanChargeListLoanWise,
+} = require("./controller/loanChargeList");
+const {
   viewLoanCharges,
   singleLoanCharges,
   addLoanCharges,
@@ -158,7 +172,14 @@ const {
   updateLoanProduct,
   deleteLoanProduct,
 } = require("./controller/loanProduct");
-const { viewLoanProductCharges, singleLoanProductCharges, addLoanProductCharges, updateLoanProductCharges, deleteLoanProductCharges, viewLoanProductChargesProductWise } = require("./controller/loanProductCharges");
+const {
+  viewLoanProductCharges,
+  singleLoanProductCharges,
+  addLoanProductCharges,
+  updateLoanProductCharges,
+  deleteLoanProductCharges,
+  viewLoanProductChargesProductWise,
+} = require("./controller/loanProductCharges");
 const {
   viewLoanPurpose,
   singleLoanPurpose,
@@ -187,7 +208,14 @@ const {
   updatePayrollItem,
   deletePayrollItem,
 } = require("./controller/payrollItem");
-const { viewPayrollPayment, singlePayrollPayment, addPayrollPayment, updatePayrollPayment, deletePayrollPayment, payrollPaymentPayrollWise } = require("./controller/payrollPayment");
+const {
+  viewPayrollPayment,
+  singlePayrollPayment,
+  addPayrollPayment,
+  updatePayrollPayment,
+  deletePayrollPayment,
+  payrollPaymentPayrollWise,
+} = require("./controller/payrollPayment");
 const {
   viewPayrollTemplate,
   singlePayrollTemplate,
@@ -326,11 +354,13 @@ router.delete(version + "/payrollItem/:id", deletePayrollItem);
 // payroll payment routes
 router.get(version + "/payrollPayment", viewPayrollPayment);
 router.get(version + "/payrollPayment/:id", singlePayrollPayment);
-router.get(version + "/payrollPaymentPayrollWise/:id", payrollPaymentPayrollWise);
+router.get(
+  version + "/payrollPaymentPayrollWise/:id",
+  payrollPaymentPayrollWise
+);
 router.post(version + "/payrollPayment", addPayrollPayment);
 router.put(version + "/payrollPayment", updatePayrollPayment);
 router.delete(version + "/payrollPayment/:id", deletePayrollPayment);
-
 
 // payroll routes
 router.get(version + "/payroll", viewPayroll);
@@ -454,6 +484,15 @@ router.post(version + "/loanPurpose", addLoanPurpose);
 router.put(version + "/loanPurpose", updateLoanPurpose);
 router.delete(version + "/loanPurpose/:id", deleteLoanPurpose);
 
+// loan charge list routes
+router.get(version + "/loanChargeList", viewLoanChargeList);
+router.get(version + "/loanChargeList/:id", singleLoanChargeList);
+router.get(version + "/loanChargeListLoanWise/:loan_id", viewLoanChargeListLoanWise);
+router.post(version + "/loanChargeList", addLoanChargeList);
+router.put(version + "/loanChargeList", updateLoanChargeList);
+router.delete(version + "/loanChargeList/:id", deleteLoanChargeList);
+
+
 // loan product routes
 router.get(version + "/loanProduct", viewLoanProduct);
 router.get(version + "/loanProduct/:id", singleLoanProduct);
@@ -463,7 +502,10 @@ router.delete(version + "/loanProduct/:id", deleteLoanProduct);
 
 // loan product charges routes
 router.get(version + "/loanProductCharges", viewLoanProductCharges);
-router.get(version + "/loanProductChargesProductWise/:loan_products_id", viewLoanProductChargesProductWise);
+router.get(
+  version + "/loanProductChargesProductWise/:loan_products_id",
+  viewLoanProductChargesProductWise
+);
 router.get(version + "/loanProductCharges/:id", singleLoanProductCharges);
 router.post(version + "/loanProductCharges", addLoanProductCharges);
 router.put(version + "/loanProductCharges", updateLoanProductCharges);
@@ -472,8 +514,14 @@ router.delete(version + "/loanProductCharges/:id", deleteLoanProductCharges);
 // loan charges routes
 router.get(version + "/loanCharges", viewLoanCharges);
 router.get(version + "/loanCharges/:id", singleLoanCharges);
-router.get(version + "/loanChargesCurrencyWise/:id", viewLoanChargesCurrencyWise);
-router.get(version + "/loanChargesCurrencyProductWise/:loan_products_id/:currency_id", viewLoanChargesCurrencyAndProductWise);
+router.get(
+  version + "/loanChargesCurrencyWise/:id",
+  viewLoanChargesCurrencyWise
+);
+router.get(
+  version + "/loanChargesCurrencyProductWise/:loan_products_id/:currency_id",
+  viewLoanChargesCurrencyAndProductWise
+);
 router.post(version + "/loanCharges", addLoanCharges);
 router.put(version + "/loanCharges", updateLoanCharges);
 router.delete(version + "/loanCharges/:id", deleteLoanCharges);
@@ -491,7 +539,6 @@ router.post(version + "/loanWithdraw", loanWithdraw);
 router.post(version + "/loanReject", loanReject);
 router.put(version + "/loan", updateLoan);
 router.delete(version + "/loan/:id", deleteLoan);
-
 
 // charge on loan
 router.get(version + "/chargeOnLoan", viewChargeOnLoan);
@@ -536,5 +583,3 @@ router.put(version + "/funds", updateFunds);
 router.delete(version + "/funds/:id", deleteFunds);
 
 module.exports = router;
-
-
