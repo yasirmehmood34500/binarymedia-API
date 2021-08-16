@@ -166,7 +166,7 @@ const {
   viewLoanChargesCurrencyWise,
   viewLoanChargesCurrencyAndProductWise,
 } = require("./controller/loanCharges");
-const { viewLoanGuarantorList, singleLoanGuarantorList, addLoanGuarantorList, updateLoanGuarantorList, deleteLoanGuarantorList } = require("./controller/loanGuarantorList");
+const { viewLoanGuarantorList, singleLoanGuarantorList, addLoanGuarantorList, updateLoanGuarantorList, deleteLoanGuarantorList, viewLoanGuarantorListLoanWise } = require("./controller/loanGuarantorList");
 const {
   viewLoanProduct,
   singleLoanProduct,
@@ -507,9 +507,11 @@ router.delete(version + "/loanProduct/:id", deleteLoanProduct);
 // loan guarantor routes
 router.get(version + "/loanGuarantorList", viewLoanGuarantorList);
 router.get(version + "/loanGuarantorList/:id", singleLoanGuarantorList);
+router.get(version + "/loanGuarantorListLoanWise/:loan_id", viewLoanGuarantorListLoanWise);
 router.post(version + "/loanGuarantorList", addLoanGuarantorList);
 router.put(version + "/loanGuarantorList", updateLoanGuarantorList);
 router.delete(version + "/loanGuarantorList/:id", deleteLoanGuarantorList);
+
 
 // loan product charges routes
 router.get(version + "/loanProductCharges", viewLoanProductCharges);

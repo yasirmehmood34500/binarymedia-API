@@ -119,6 +119,7 @@ module.exports = {
                     success: true,
                     message: "Success",
                     result: "Successfully Added",
+                    insertedId: result.insertId
                 });
             }
         });

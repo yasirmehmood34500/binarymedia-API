@@ -1,7 +1,25 @@
 module.exports = {
     viewLoanGuarantorList: (req, res) => {
         let query =
-            "SELECT id, loan_id, client_id, amount FROM loan_guarantor_list WHERE status =1";
+            "SELECT id, loan_id, client_id, (SELECT firstName FROM client WHERE id=loan_guarantor_list.client_id) AS client, amount FROM loan_guarantor_list WHERE status =1";
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: result,
+                });
+            }
+        });
+    },
+    viewLoanGuarantorListLoanWise: (req, res) => {
+        let query =
+            "SELECT id, loan_id, client_id, (SELECT firstName FROM client WHERE id=loan_guarantor_list.client_id) AS client, amount FROM loan_guarantor_list WHERE status =1 AND loan_id="+req.params.loan_id;
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -19,7 +37,7 @@ module.exports = {
     },
     singleLoanGuarantorList: (req, res) => {
         let query =
-            "SELECT  id, loan_id, client_id, amount  FROM loan_guarantor_list WHERE id=" +
+            "SELECT  id, loan_id, client_id, (SELECT firstName FROM client WHERE id=loan_guarantor_list.client_id) AS client, amount  FROM loan_guarantor_list WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
