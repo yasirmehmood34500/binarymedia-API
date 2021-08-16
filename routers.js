@@ -155,6 +155,7 @@ const {
   updateLoanChargeList,
   deleteLoanChargeList,
   viewLoanChargeListLoanWise,
+  loanChargeListWaiveCharge,
 } = require("./controller/loanChargeList");
 const {
   viewLoanCharges,
@@ -165,6 +166,7 @@ const {
   viewLoanChargesCurrencyWise,
   viewLoanChargesCurrencyAndProductWise,
 } = require("./controller/loanCharges");
+const { viewLoanGuarantorList, singleLoanGuarantorList, addLoanGuarantorList, updateLoanGuarantorList, deleteLoanGuarantorList } = require("./controller/loanGuarantorList");
 const {
   viewLoanProduct,
   singleLoanProduct,
@@ -179,6 +181,7 @@ const {
   updateLoanProductCharges,
   deleteLoanProductCharges,
   viewLoanProductChargesProductWise,
+  viewLoanProductChargesLoanWise,
 } = require("./controller/loanProductCharges");
 const {
   viewLoanPurpose,
@@ -487,6 +490,7 @@ router.delete(version + "/loanPurpose/:id", deleteLoanPurpose);
 // loan charge list routes
 router.get(version + "/loanChargeList", viewLoanChargeList);
 router.get(version + "/loanChargeList/:id", singleLoanChargeList);
+router.post(version + "/loanChargeListWaiveCharge", loanChargeListWaiveCharge);
 router.get(version + "/loanChargeListLoanWise/:loan_id", viewLoanChargeListLoanWise);
 router.post(version + "/loanChargeList", addLoanChargeList);
 router.put(version + "/loanChargeList", updateLoanChargeList);
@@ -500,12 +504,20 @@ router.post(version + "/loanProduct", addLoanProduct);
 router.put(version + "/loanProduct", updateLoanProduct);
 router.delete(version + "/loanProduct/:id", deleteLoanProduct);
 
+// loan guarantor routes
+router.get(version + "/loanGuarantorList", viewLoanGuarantorList);
+router.get(version + "/loanGuarantorList/:id", singleLoanGuarantorList);
+router.post(version + "/loanGuarantorList", addLoanGuarantorList);
+router.put(version + "/loanGuarantorList", updateLoanGuarantorList);
+router.delete(version + "/loanGuarantorList/:id", deleteLoanGuarantorList);
+
 // loan product charges routes
 router.get(version + "/loanProductCharges", viewLoanProductCharges);
 router.get(
   version + "/loanProductChargesProductWise/:loan_products_id",
   viewLoanProductChargesProductWise
 );
+router.get(version + "/loanProductChargesLoanWise/:loan_id", viewLoanProductChargesLoanWise);
 router.get(version + "/loanProductCharges/:id", singleLoanProductCharges);
 router.post(version + "/loanProductCharges", addLoanProductCharges);
 router.put(version + "/loanProductCharges", updateLoanProductCharges);

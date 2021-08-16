@@ -1,7 +1,7 @@
 module.exports = {
-    viewLoanChargeList: (req, res) => {
+    viewLoanGuarantorList: (req, res) => {
         let query =
-            "SELECT id, loan_id, loan_charges_id, waive_charge_status, amount FROM loan_charge_list WHERE status =1";
+            "SELECT id, loan_id, client_id, amount FROM loan_guarantor_list WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -17,29 +17,9 @@ module.exports = {
             }
         });
     },
-    viewLoanChargeListLoanWise: (req, res) => {
+    singleLoanGuarantorList: (req, res) => {
         let query =
-            "SELECT loan_charge_list.id, loan_charge_list.loan_id, loan_charge_list.loan_charges_id, loan_charges.name, loan_charges.chargeType, loan_charges.chargeOption,  loan_charge_list.waive_charge_status, loan_charge_list.amount FROM loan_charge_list LEFT JOIN loan_charges  ON loan_charge_list.loan_charges_id=loan_charges.id WHERE loan_charge_list.status =1 AND loan_charge_list.loan_id ="+req.params.loan_id;
-        
-            db.query(query, (err, result) => {
-            if (err) {
-                res.status(400).json({
-                    success: false,
-                    message: "Something is really bad happens",
-                });
-            } else {
-                res.status(200).json({
-                    success: true,
-                    message: "Success",
-                    result: result,
-                });
-            }
-        });
-    },
-
-    singleLoanChargeList: (req, res) => {
-        let query =
-            "SELECT id, loan_id, loan_charges_id, waive_charge_status, amount FROM loan_charge_list WHERE id=" +
+            "SELECT  id, loan_id, client_id, amount  FROM loan_guarantor_list WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -57,29 +37,9 @@ module.exports = {
             }
         });
     },
-    
-    loanChargeListWaiveCharge: (req, res) => {
+    deleteLoanGuarantorList: (req, res) => {
         let query =
-            "UPDATE loan_charge_list  SET waive_charge_status = 1 WHERE id=" +
-            req.body.id;
-        db.query(query, (err, result) => {
-            if (err) {
-                res.status(400).json({
-                    success: false,
-                    message: "Something is really bad happens",
-                });
-            } else {
-                res.status(200).json({
-                    success: true,
-                    message: "Success",
-                    result: "Successfully Deleted",
-                });
-            }
-        });
-    },
-    deleteLoanChargeList: (req, res) => {
-        let query =
-            "UPDATE loan_charge_list  SET status = 0 WHERE id=" +
+            "UPDATE loan_guarantor_list  SET status = 0 WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -97,7 +57,7 @@ module.exports = {
             }
         });
     },
-    addLoanChargeList: (req, res) => {
+    addLoanGuarantorList: (req, res) => {
         let ts = Date.now();
 
         let date_ob = new Date(ts);
@@ -105,12 +65,10 @@ module.exports = {
         let month = date_ob.getMonth() + 1;
         let year = date_ob.getFullYear();
         let query =
-            "INSERT INTO  loan_charge_list SET loan_id='" +
+            "INSERT INTO  loan_guarantor_list SET loan_id='" +
             req.body.loan_id +
-            "', loan_charges_id='" +
-            req.body.loan_charges_id +
-            "', waive_charge_status='" +
-            req.body.waive_charge_status +
+            "', client_id='" +
+            req.body.client_id +
             "', amount='" +
             req.body.amount +
            
@@ -136,20 +94,17 @@ module.exports = {
             }
         });
     },
-    updateLoanChargeList: (req, res) => {
+    updateLoanGuarantorList: (req, res) => {
         let query =
-            "UPDATE loan_charge_list SET loan_id='" +
+            "UPDATE loan_guarantor_list SET loan_id='" +
             req.body.loan_id +
-            "', loan_charges_id='" +
-            req.body.loan_charges_id +
-            "', waive_charge_status='" +
-            req.body.waive_charge_status +
+            "', client_id='" +
+            req.body.client_id +
             "', amount='" +
             req.body.amount +
            
             "' WHERE id=" +
             req.body.id;
-         
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({

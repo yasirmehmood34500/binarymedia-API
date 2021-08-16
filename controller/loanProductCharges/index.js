@@ -37,6 +37,26 @@ module.exports = {
             }
         });
     },
+    
+    viewLoanProductChargesLoanWise: (req, res) => {
+        let query =
+            "SELECT * FROM loan_charges WHERE id IN (SELECT loan_charges_id FROM loan_product_charges WHERE loan_products_id=(SELECT loanProduct_id FROM loan WHERE id="+req.params.loan_id+"))";
+            
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: result,
+                });
+            }
+        });
+    },
     singleLoanProductCharges: (req, res) => {
         let query =
             "SELECT id, loan_charges_id, loan_products_id FROM  loan_product_charges WHERE id=" +
