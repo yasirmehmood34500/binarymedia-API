@@ -300,13 +300,7 @@ module.exports = {
     },
     updateLoan: (req, res) => {
         let query =
-            "UPDATE loan SET clientType='" +
-            req.body.clientType +
-            "', client_id='" +
-            req.body.client_id +
-            "', loanProduct_id='" +
-            req.body.loanProduct_id +
-            "', principal='" +
+            "UPDATE loan SET principal='" +
             req.body.principal +
             "', funds_id='" +
             req.body.funds_id +
