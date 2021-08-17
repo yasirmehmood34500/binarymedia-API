@@ -155,6 +155,9 @@ const {
   loanUndoApprovel,
   loanWithdraw,
   loanReject,
+  calculateLoanInterest,
+  loanWriteOff,
+  loanUndoWriteOff,
 } = require("./controller/loan");
 const {
   viewLoanChargeList,
@@ -174,8 +177,22 @@ const {
   viewLoanChargesCurrencyWise,
   viewLoanChargesCurrencyAndProductWise,
 } = require("./controller/loanCharges");
-const { viewLoanCollateralList, singleLoanCollateralList, addLoanCollateralList, updateLoanCollateralList, deleteLoanCollateralList, viewLoanCollateralListLoanWise } = require("./controller/loanCollateralList");
-const { viewLoanFilesList, singleLoanFilesList, addLoanFilesList, updateLoanFilesList, deleteLoanFilesList, viewLoanFilesListLoanWise } = require("./controller/loanFilesList");
+const {
+  viewLoanCollateralList,
+  singleLoanCollateralList,
+  addLoanCollateralList,
+  updateLoanCollateralList,
+  deleteLoanCollateralList,
+  viewLoanCollateralListLoanWise,
+} = require("./controller/loanCollateralList");
+const {
+  viewLoanFilesList,
+  singleLoanFilesList,
+  addLoanFilesList,
+  updateLoanFilesList,
+  deleteLoanFilesList,
+  viewLoanFilesListLoanWise,
+} = require("./controller/loanFilesList");
 const {
   viewLoanGuarantorList,
   singleLoanGuarantorList,
@@ -184,7 +201,14 @@ const {
   deleteLoanGuarantorList,
   viewLoanGuarantorListLoanWise,
 } = require("./controller/loanGuarantorList");
-const { viewLoanNoteList, singleLoanNoteList, viewLoanNoteListLoanWise, addLoanNoteList, updateLoanNoteList, deleteLoanNoteList } = require("./controller/loanNoteList");
+const {
+  viewLoanNoteList,
+  singleLoanNoteList,
+  viewLoanNoteListLoanWise,
+  addLoanNoteList,
+  updateLoanNoteList,
+  deleteLoanNoteList,
+} = require("./controller/loanNoteList");
 const {
   viewLoanProduct,
   singleLoanProduct,
@@ -208,6 +232,16 @@ const {
   updateLoanPurpose,
   deleteLoanPurpose,
 } = require("./controller/loanPurpose");
+const {
+  viewLoanTransactionList,
+  singleLoanTransactionList,
+  addLoanTransactionList,
+  updateLoanTransactionList,
+  deleteLoanTransactionList,
+  viewLoanTransactionListLoanWise,
+  deleteLoanTransactionListLoanWise,
+  deleteLoanTransactionListWriteOffLoanWise,
+} = require("./controller/loanTransactionList");
 const {
   viewPaymentType,
   singlePaymentType,
@@ -564,6 +598,25 @@ router.post(version + "/loanCollateralList", addLoanCollateralList);
 router.put(version + "/loanCollateralList", updateLoanCollateralList);
 router.delete(version + "/loanCollateralList/:id", deleteLoanCollateralList);
 
+// loan tranaction routes
+router.get(version + "/loanTransactionList", viewLoanTransactionList);
+router.get(version + "/loanTransactionList/:id", singleLoanTransactionList);
+router.post(version + "/loanTransactionList", addLoanTransactionList);
+router.put(version + "/loanTransactionList", updateLoanTransactionList);
+router.delete(version + "/loanTransactionList/:id", deleteLoanTransactionList);
+router.get(
+  version + "/loanTransactionListLoanWise/:loan_id",
+  viewLoanTransactionListLoanWise
+);
+router.delete(
+  version + "/loanTransactionListLoanWise/:loan_id",
+  deleteLoanTransactionListLoanWise
+);
+router.delete(
+  version + "/loanTransactionListWriteOffLoanWise/:loan_id",
+  deleteLoanTransactionListWriteOffLoanWise
+);
+
 // loan note routes
 router.get(version + "/loanNoteList", viewLoanNoteList);
 router.get(version + "/loanNoteList/:id", singleLoanNoteList);
@@ -582,7 +635,7 @@ router.get(
   viewLoanProductChargesProductWise
 );
 router.get(
-  version + "/loanProductChargesLoanWise/:loan_id",
+  version + "/loanProductChargesLo4anWise/:loan_id",
   viewLoanProductChargesLoanWise
 );
 router.get(version + "/loanProductCharges/:id", singleLoanProductCharges);
@@ -610,14 +663,17 @@ router.get(version + "/loan", viewLoan);
 router.get(version + "/loan/:id", singleLoan);
 router.post(version + "/loan", addLoan);
 router.post(version + "/loanApprove", loanApprove);
+router.post(version + "/loanWriteOff", loanWriteOff);
 router.post(version + "/loanDisburse", loanDisburse);
 router.post(version + "/loanChangeOfficer", loanChangeOfficer);
 router.post(version + "/loanUndoDisburse", loanUndoDisburse);
 router.post(version + "/loanUndoApprovel", loanUndoApprovel);
+router.post(version + "/loanUndoWriteOff", loanUndoWriteOff);
 router.post(version + "/loanWithdraw", loanWithdraw);
 router.post(version + "/loanReject", loanReject);
 router.put(version + "/loan", updateLoan);
 router.delete(version + "/loan/:id", deleteLoan);
+router.get(version + "/calculateLoanInterest/:id", calculateLoanInterest);
 
 // charge on loan
 router.get(version + "/chargeOnLoan", viewChargeOnLoan);
