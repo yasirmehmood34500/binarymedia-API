@@ -368,16 +368,33 @@ module.exports = {
             req.body.loanProduct_id +
             "', principal='" +
             req.body.principal +
+            "', minimumPrincipal='" +
+            req.body.minimumPrincipal +
+            "', maximumPrincipal='" +
+            req.body.maximumPrincipal +
             "', funds_id='" +
             req.body.funds_id +
             "', loanTerm='" +
             req.body.loanTerm +
+            "', minimumLoanTerm='" +
+            req.body.minimumLoanTerm +
+            "', maximumLoanTerm='" +
+            req.body.maximumLoanTerm +
             "', repaymentFrequency='" +
             req.body.repaymentFrequency +
             "', repaymentType='" +
             req.body.repaymentType +
             "', interestRate='" +
             req.body.interestRate +
+            "', minimumInterestRate='" +
+            req.body.minimumInterestRate +
+            "', maximumInterestRate='" +
+            req.body.maximumInterestRate +
+
+            "', interestRateType='" +
+            req.body.interestRateType +
+            "', interestMethodology='" +
+            req.body.interestMethodology +
             
             "', loanOfficer_user_id='" +
             req.body.loanOfficer_user_id +
@@ -405,6 +422,7 @@ module.exports = {
                     success: true,
                     message: "Success",
                     result: "Successfully Added",
+                    insertId: result.insertId,
                 });
             }
         });
