@@ -39,7 +39,7 @@ module.exports = {
     },
     calculateLoanInterest: (req, res) => {
         let query =
-            "SELECT loanTerm, repaymentFrequency, (SELECT debit FROm loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CP' ) AS all_disburse, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid' ) AS pay_disburse ,(SELECT debit FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CI' ) AS all_interest, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid') AS pay_interest, (SELECT SUM(credit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WI' ) AS pay_waive FROM loan WHERE id=" +
+            "SELECT loanTerm, repaymentFrequency, (SELECT debit FROm loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CP' ) AS all_disburse, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid' ) AS pay_disburse ,(SELECT debit FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CI' ) AS all_interest, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid') AS pay_interest, (SELECT SUM(credit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WI' ) AS pay_waive, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WO' ) AS writeOffPrincipal, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WO' ) AS writeOffInterest FROM loan WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -59,6 +59,10 @@ module.exports = {
                  let   pay_interest= result[0].pay_interest  != null ? result[0].pay_interest : 0;
                  let pay_waive= result[0].pay_waive  != null ? result[0].pay_waive : 0;
                  let payable_interest=(all_interest - (pay_waive + pay_interest));
+
+                 let writeOffInterest=result[0].writeOffInterest != null ? result[0].writeOffInterest : 0;
+                let writeOffPrincipal=result[0].writeOffPrincipal != null ? result[0].writeOffPrincipal : 0 ;
+
                 let data={
                     loanTerm: loanTerm,
                     repaymentFrequency: repaymentFrequency,
@@ -71,6 +75,8 @@ module.exports = {
                     payableInterest: payable_interest,
                     interestPerTransaction: all_interest/noOfTran,
                     totalPayable: payable_disburse+payable_interest,
+                    writeOffInterest: writeOffInterest,
+                    writeOffPrincipal: writeOffPrincipal,
                 }
                 res.status(200).json({
                     success: true,
