@@ -158,6 +158,7 @@ const {
   calculateLoanInterest,
   loanWriteOff,
   loanUndoWriteOff,
+  loanDisburseDis,
 } = require("./controller/loan");
 const {
   viewLoanChargeList,
@@ -232,6 +233,7 @@ const {
   updateLoanPurpose,
   deleteLoanPurpose,
 } = require("./controller/loanPurpose");
+const { viewLoanRepaymentSchedule, singleLoanRepaymentSchedule, addLoanRepaymentSchedule, updateLoanRepaymentSchedule, deleteLoanRepaymentSchedule, viewLoanRepaymentScheduleLoanWise, deleteLoanRepaymentScheduleLoanWise } = require("./controller/loanRepaymentSchedule");
 const {
   viewLoanTransactionList,
   singleLoanTransactionList,
@@ -635,7 +637,7 @@ router.get(
   viewLoanProductChargesProductWise
 );
 router.get(
-  version + "/loanProductChargesLo4anWise/:loan_id",
+  version + "/loanProductChargesLoanWise/:loan_id",
   viewLoanProductChargesLoanWise
 );
 router.get(version + "/loanProductCharges/:id", singleLoanProductCharges);
@@ -665,6 +667,7 @@ router.post(version + "/loan", addLoan);
 router.post(version + "/loanApprove", loanApprove);
 router.post(version + "/loanWriteOff", loanWriteOff);
 router.post(version + "/loanDisburse", loanDisburse);
+router.post(version + "/loanDisburseDis", loanDisburseDis);
 router.post(version + "/loanChangeOfficer", loanChangeOfficer);
 router.post(version + "/loanUndoDisburse", loanUndoDisburse);
 router.post(version + "/loanUndoApprovel", loanUndoApprovel);
@@ -681,6 +684,15 @@ router.get(version + "/chargeOnLoan/:id", singleChargeOnLoan);
 router.post(version + "/chargeOnLoan", addChargeOnLoan);
 router.put(version + "/chargeOnLoan", updateChargeOnLoan);
 router.delete(version + "/chargeOnLoan/:id", deleteChargeOnLoan);
+
+// loan repayment schedule routes
+router.get(version + "/loanRepaymentSchedule", viewLoanRepaymentSchedule);
+router.get(version + "/loanRepaymentSchedule/:id", singleLoanRepaymentSchedule);
+router.get(version + "/loanRepaymentScheduleLoanWise/:loan_id", viewLoanRepaymentScheduleLoanWise);
+router.post(version + "/loanRepaymentSchedule", addLoanRepaymentSchedule);
+router.put(version + "/loanRepaymentSchedule", updateLoanRepaymentSchedule);
+router.delete(version + "/loanRepaymentSchedule/:id", deleteLoanRepaymentSchedule);
+router.delete(version + "/loanRepaymentScheduleLoanWise/:loan_id", deleteLoanRepaymentScheduleLoanWise);
 
 // saving charges routes
 router.get(version + "/savingCharges", viewSavingCharges);

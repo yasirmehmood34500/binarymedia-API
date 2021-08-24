@@ -1,7 +1,7 @@
 module.exports = {
-    viewLoanTransactionList: (req, res) => {
+    viewLoanRepaymentSchedule: (req, res) => {
         let query =
-            "SELECT id, loan_id, payment_type_id, (SELECT name FROm payment_type WHERE id=loan_transaction_list.payment_type_id) AS payment_type, submittedOn, transactionType, debit, credit, account, cheque, routingCode, receipt, bank, detail, createAt FROM loan_transaction_list WHERE status =1";
+            "SELECT id, loan_id, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties,  totalPaid FROM loan_repayment_schedule WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -17,9 +17,9 @@ module.exports = {
             }
         });
     },
-    viewLoanTransactionListLoanWise: (req, res) => {
+    viewLoanRepaymentScheduleLoanWise: (req, res) => {
         let query =
-            "SELECT id, loan_id,payment_type_id, (SELECT name FROm payment_type WHERE id=loan_transaction_list.payment_type_id) AS payment_type, submittedOn, transactionType, debit, credit, account, cheque, routingCode, receipt, bank, detail, createAt FROM loan_transaction_list WHERE status =1 AND loan_id="+req.params.loan_id;
+            "SELECT id, loan_id, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties,  totalPaid FROM loan_repayment_schedule WHERE status =1 AND loan_id="+req.params.loan_id;
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -35,9 +35,9 @@ module.exports = {
             }
         });
     },
-    singleLoanTransactionList: (req, res) => {
+    singleLoanRepaymentSchedule: (req, res) => {
         let query =
-            "SELECT id, loan_id,payment_type_id, (SELECT name FROm payment_type WHERE id=loan_transaction_list.payment_type_id) AS payment_type, submittedOn, transactionType, debit, credit, account, cheque, routingCode, receipt, bank, detail,  createAt FROM loan_transaction_list WHERE id=" +
+            "SELECT id, loan_id, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties,  totalPaid FROM loan_repayment_schedule WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -55,9 +55,9 @@ module.exports = {
             }
         });
     },
-    deleteLoanTransactionList: (req, res) => {
+    deleteLoanRepaymentSchedule: (req, res) => {
         let query =
-            "UPDATE loan_transaction_list  SET status = 0 WHERE id=" +
+            "UPDATE loan_repayment_schedule  SET status = 0 WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -75,9 +75,9 @@ module.exports = {
             }
         });
     },
-    deleteLoanTransactionListLoanWise: (req, res) => {
+    deleteLoanRepaymentScheduleLoanWise: (req, res) => {
         let query =
-            "UPDATE loan_transaction_list  SET status = 0 WHERE loan_id=" +
+            "UPDATE loan_repayment_schedule  SET status = 0 WHERE loan_id=" +
             req.params.loan_id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -95,67 +95,39 @@ module.exports = {
             }
         });
     },
-    deleteLoanTransactionListWriteOffLoanWise: (req, res) => {
-        let query =
-            "UPDATE loan_transaction_list  SET status = 0 WHERE loan_id=" +
-            req.params.loan_id +
-            " AND status =1 AND type='WO'";
-        db.query(query, (err, result) => {
-            if (err) {
-                res.status(400).json({
-                    success: false,
-                    message: "Something is really bad happens",
-                });
-            } else {
-                res.status(200).json({
-                    success: true,
-                    message: "Success",
-                    result: "Successfully Deleted",
-                });
-            }
-        });
-    },
-    addLoanTransactionList: (req, res) => {
+    addLoanRepaymentSchedule: (req, res) => {
         let ts = Date.now();
-
         let date_ob = new Date(ts);
         let date = date_ob.getDate();
         let month = date_ob.getMonth() + 1;
         let year = date_ob.getFullYear();
-        
-
         let query =
-            "INSERT INTO  loan_transaction_list SET loan_id='" +
+            "INSERT INTO  loan_repayment_schedule SET loan_id='" +
             req.body.loan_id +
-            "', payment_type_id='" +
-            req.body.payment_type_id +
-            "', submittedOn='" +
-            req.body.submittedOn +
-            "', transactionType='" +
-            req.body.transactionType +
-            "', debit='" +
-            req.body.debit +
-            "', credit='" +
-            req.body.credit +
-            "', cP='" +
-            req.body.cP +
-            "', cI='" +
-            req.body.cI +
-            "', type='" +
-            req.body.type +
-            "', account='" +
-            req.body.account +
-            "', cheque='" +
-            req.body.cheque +
-            "', routingCode='" +
-            req.body.routingCode +
-            "', receipt='" +
-            req.body.receipt +
-            "', bank='" +
-            req.body.bank +
-            "', detail='" +
-            req.body.detail +
-           
+
+            "', ddate='" +
+            req.body.ddate +
+            "', ddays='" +
+            req.body.ddays +
+            "', payDate='" +
+            req.body.payDate +
+            "', disbursement='" +
+            req.body.disbursement +
+            "', principalDue='" +
+            req.body.principalDue +
+            "', principalBalance='" +
+            req.body.principalBalance +
+            "', interestDue='" +
+            req.body.interestDue +
+            "', fees='" +
+            req.body.fees +
+            "', penalties='" +
+            req.body.penalties +
+          
+            "', totalPaid='" +
+            req.body.totalPaid +
+
+
             "', createAt='" +
             year +
             "-" +
@@ -178,39 +150,32 @@ module.exports = {
             }
         });
     },
-    updateLoanTransactionList: (req, res) => {
+    updateLoanRepaymentSchedule: (req, res) => {
         let query =
-            "UPDATE loan_transaction_list SET loan_id='" +
+            "UPDATE loan_repayment_schedule SET loan_id='" +
             req.body.loan_id +
-            "', payment_type_id='" +
-            req.body.payment_type_id +
-            "', submittedOn='" +
-            req.body.submittedOn +
-            "', transactionType='" +
-            req.body.transactionType +
-            "', debit='" +
-            req.body.debit +
-            "', credit='" +
-            req.body.credit +
-            "', cP='" +
-            req.body.cP +
-            "', cI='" +
-            req.body.cI +
-            "', type='" +
-            req.body.type +
-            "', account='" +
-            req.body.account +
-            "', cheque='" +
-            req.body.cheque +
-            "', routingCode='" +
-            req.body.routingCode +
-            "', receipt='" +
-            req.body.receipt +
-            "', bank='" +
-            req.body.bank +
-            "', detail='" +
-            req.body.detail +
+            "', ddate='" +
+            req.body.ddate +
+            "', ddays='" +
+            req.body.ddays +
+            "', payDate='" +
+            req.body.payDate +
+            "', disbursement='" +
+            req.body.disbursement +
+            "', principalDue='" +
+            req.body.principalDue +
+            "', principalBalance='" +
+            req.body.principalBalance +
+            "', interestDue='" +
+            req.body.interestDue +
+            "', fees='" +
+            req.body.fees +
+            "', penalties='" +
+            req.body.penalties +
            
+            "', totalPaid='" +
+            req.body.totalPaid +
+
             "' WHERE id=" +
             req.body.id;
         db.query(query, (err, result) => {
@@ -229,5 +194,5 @@ module.exports = {
         });
     },
 
-   
+
 };

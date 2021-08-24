@@ -1,7 +1,7 @@
 module.exports = {
     viewLoan: (req, res) => {
         let query =
-            "SELECT id, clientType, client_id, (SELECT firstName FROM client WHERE id=loan.client_id) AS client, loanProduct_id, (SELECT name FROM loan_products WHERE id=loan.loanProduct_id) AS loanProduct, (SELECT currency_id FROM loan_products WHERE id=loan.loanProduct_id) AS currency_id, (SELECT name FROM currency WHERE id=(SELECT currency_id FROM loan_products WHERE id=loan.loanProduct_id)) AS currency, (SELECT graceOnPrincipalPayment FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnPrincipalPayment, (SELECT graceOnInterestPayment FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnInterestPayment, (SELECT graceOnInterestCharged FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnInterestCharged, (SELECT interestMethodology FROM loan_products WHERE id=loan.loanProduct_id) AS interestMethodology, (SELECT loanTransactionProcessingStrategy FROM loan_products WHERE id=loan.loanProduct_id) AS loanTransactionProcessingStrategy, principal, funds_id, (SELECT name FROM funds WHERE id=loan.funds_id) AS funds, loanTerm, repaymentFrequency, repaymentType, interestRate, expectedDisbursementDate,expectedFirstRepaymentDate, loanOfficer_user_id, (SELECT firstName FROM user WHERE id=loan.loanOfficer_user_id) AS user, loanPurpose_id, (SELECT name FROM loan_purpose WHERE id=loan.loanPurpose_id) AS loanPurpose, createAt, loan_status_id, (SELECT name FROM loan_status WHERE id=loan.loan_status_id) AS loan_status, disburseDate, approvedDate , disburseAmount, approvedAmount FROM loan WHERE status =1";
+            "SELECT id, clientType, client_id, own_amount_percentage, own_interest_per_transaction, own_per_transaction_amount, own_no_of_transaction,  (SELECT firstName FROM client WHERE id=loan.client_id) AS client, loanProduct_id, (SELECT name FROM loan_products WHERE id=loan.loanProduct_id) AS loanProduct, (SELECT currency_id FROM loan_products WHERE id=loan.loanProduct_id) AS currency_id, (SELECT name FROM currency WHERE id=(SELECT currency_id FROM loan_products WHERE id=loan.loanProduct_id)) AS currency, (SELECT graceOnPrincipalPayment FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnPrincipalPayment, (SELECT graceOnInterestPayment FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnInterestPayment, (SELECT graceOnInterestCharged FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnInterestCharged, (SELECT interestMethodology FROM loan_products WHERE id=loan.loanProduct_id) AS interestMethodology, (SELECT loanTransactionProcessingStrategy FROM loan_products WHERE id=loan.loanProduct_id) AS loanTransactionProcessingStrategy, principal, minimumPrincipal, maximumPrincipal, funds_id, (SELECT name FROM funds WHERE id=loan.funds_id) AS funds, loanTerm, minimumLoanTerm, maximumLoanTerm,  repaymentFrequency, repaymentType, interestRate, minimumInterestRate, maximumInterestRate, interestRateType, interestMethodology, expectedDisbursementDate,expectedFirstRepaymentDate, loanOfficer_user_id, (SELECT firstName FROM user WHERE id=loan.loanOfficer_user_id) AS user, loanPurpose_id, (SELECT name FROM loan_purpose WHERE id=loan.loanPurpose_id) AS loanPurpose, createAt, loan_status_id, (SELECT name FROM loan_status WHERE id=loan.loan_status_id) AS loan_status, disburseDate, approvedDate , disburseAmount, approvedAmount FROM loan WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -19,7 +19,7 @@ module.exports = {
     },
     singleLoan: (req, res) => {
         let query =
-            "SELECT id, clientType, client_id, (SELECT firstName FROM client WHERE id=loan.client_id) AS client, loanProduct_id, (SELECT name FROM loan_products WHERE id=loan.loanProduct_id) AS loanProduct, (SELECT currency_id FROM loan_products WHERE id=loan.loanProduct_id) AS currency_id, (SELECT name FROM currency WHERE id=(SELECT currency_id FROM loan_products WHERE id=loan.loanProduct_id)) AS currency, (SELECT graceOnPrincipalPayment FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnPrincipalPayment, (SELECT graceOnInterestPayment FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnInterestPayment, (SELECT graceOnInterestCharged FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnInterestCharged, (SELECT interestMethodology FROM loan_products WHERE id=loan.loanProduct_id) AS interestMethodology, (SELECT loanTransactionProcessingStrategy FROM loan_products WHERE id=loan.loanProduct_id) AS loanTransactionProcessingStrategy,  principal, funds_id, (SELECT name FROM funds WHERE id=loan.funds_id) AS funds, loanTerm, repaymentFrequency, repaymentType, interestRate, expectedDisbursementDate,expectedFirstRepaymentDate, loanOfficer_user_id, (SELECT firstName FROM user WHERE id=loan.loanOfficer_user_id) AS user, loanPurpose_id, (SELECT name FROM loan_purpose WHERE id=loan.loanPurpose_id) AS loanPurpose, createAt, loan_status_id, (SELECT name FROM loan_status WHERE id=loan.loan_status_id) AS loan_status, disburseDate, approvedDate, disburseAmount, approvedAmount FROM loan WHERE id=" +
+            "SELECT id, clientType, client_id, own_amount_percentage, own_interest_per_transaction, own_per_transaction_amount, own_no_of_transaction, (SELECT firstName FROM client WHERE id=loan.client_id) AS client, loanProduct_id, (SELECT name FROM loan_products WHERE id=loan.loanProduct_id) AS loanProduct, (SELECT currency_id FROM loan_products WHERE id=loan.loanProduct_id) AS currency_id, (SELECT name FROM currency WHERE id=(SELECT currency_id FROM loan_products WHERE id=loan.loanProduct_id)) AS currency, (SELECT graceOnPrincipalPayment FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnPrincipalPayment, (SELECT graceOnInterestPayment FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnInterestPayment, (SELECT graceOnInterestCharged FROM loan_products WHERE id=loan.loanProduct_id) AS graceOnInterestCharged, (SELECT interestMethodology FROM loan_products WHERE id=loan.loanProduct_id) AS interestMethodology, (SELECT loanTransactionProcessingStrategy FROM loan_products WHERE id=loan.loanProduct_id) AS loanTransactionProcessingStrategy,  principal, minimumPrincipal, maximumPrincipal, funds_id, (SELECT name FROM funds WHERE id=loan.funds_id) AS funds, loanTerm, minimumLoanTerm, maximumLoanTerm,  repaymentFrequency, repaymentType, interestRate, minimumInterestRate, maximumInterestRate, interestRateType, interestMethodology, expectedDisbursementDate,expectedFirstRepaymentDate, loanOfficer_user_id, (SELECT firstName FROM user WHERE id=loan.loanOfficer_user_id) AS user, loanPurpose_id, (SELECT name FROM loan_purpose WHERE id=loan.loanPurpose_id) AS loanPurpose, createAt, loan_status_id, (SELECT name FROM loan_status WHERE id=loan.loan_status_id) AS loan_status, disburseDate, approvedDate, disburseAmount, approvedAmount FROM loan WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -49,34 +49,35 @@ module.exports = {
                     message: "Something is really bad happens",
                 });
             } else {
-                let loanTerm=result[0].loanTerm;
-                let repaymentFrequency= result[0].repaymentFrequency;
-                let noOfTran=loanTerm/repaymentFrequency;
-                let all_disburse=result[0].all_disburse != null ? result[0].all_disburse : 0;
-                let pay_disburse=result[0].pay_disburse != null ? result[0].pay_disburse : 0 ;
-                let payable_disburse= all_disburse - pay_disburse;
-               let all_interest= result[0].all_interest  != null ? result[0].all_interest : 0 ;
-                 let   pay_interest= result[0].pay_interest  != null ? result[0].pay_interest : 0;
-                 let pay_waive= result[0].pay_waive  != null ? result[0].pay_waive : 0;
-                 let payable_interest=(all_interest - (pay_waive + pay_interest));
+                let loanTerm = result[0].loanTerm;
+                let repaymentFrequency = result[0].repaymentFrequency;
+                let noOfTran = loanTerm / repaymentFrequency;
+                let all_disburse = result[0].all_disburse != null ? result[0].all_disburse : 0;
+                let pay_disburse = result[0].pay_disburse != null ? result[0].pay_disburse : 0;
+                let payable_disburse = all_disburse - pay_disburse;
+                let all_interest = result[0].all_interest != null ? result[0].all_interest : 0;
+                let pay_interest = result[0].pay_interest != null ? result[0].pay_interest : 0;
+                let pay_waive = result[0].pay_waive != null ? result[0].pay_waive : 0;
+                let payable_interest = (all_interest - (pay_waive + pay_interest));
 
-                 let writeOffInterest=result[0].writeOffInterest != null ? result[0].writeOffInterest : 0;
-                let writeOffPrincipal=result[0].writeOffPrincipal != null ? result[0].writeOffPrincipal : 0 ;
+                let writeOffInterest = result[0].writeOffInterest != null ? result[0].writeOffInterest : 0;
+                let writeOffPrincipal = result[0].writeOffPrincipal != null ? result[0].writeOffPrincipal : 0;
 
-                let data={
+                let data = {
                     loanTerm: loanTerm,
                     repaymentFrequency: repaymentFrequency,
-                    allDisburse: all_disburse ,
-                    payDisburse: pay_disburse ,
-                    allInterest: all_interest ,
+                    allDisburse: all_disburse,
+                    payDisburse: pay_disburse,
+                    allInterest: all_interest,
                     payInterest: pay_interest,
                     payWaive: pay_waive,
                     payableDisburse: payable_disburse,
                     payableInterest: payable_interest,
-                    interestPerTransaction: all_interest/noOfTran,
-                    totalPayable: payable_disburse+payable_interest,
+                    interestPerTransaction: all_interest / noOfTran,
+                    totalPayable: payable_disburse + payable_interest,
                     writeOffInterest: writeOffInterest,
                     writeOffPrincipal: writeOffPrincipal,
+                    totalPayAmount: ((all_disburse+all_interest)-(payable_disburse+payable_interest)),
                 }
                 res.status(200).json({
                     success: true,
@@ -88,6 +89,50 @@ module.exports = {
     },
 
     loanApprove: (req, res) => {
+        let loanTerm = parseInt(req.body.loanTerm);
+        let repaymentFrequency = parseInt(req.body.repaymentFrequency);
+        let repaymentType = req.body.repaymentType;
+        let interestRate = parseInt(req.body.interestRate);
+        let interestRateType = req.body.interestRateType;
+        let interestMethodology = req.body.interestMethodology;
+        let amount = parseInt(req.body.approvedAmount);
+        let own_amount_percentage = 0;
+        let own_interest_per_transaction = 0;
+        let own_per_transaction_amount = 0;
+        let own_no_of_transaction = 0;
+        if (interestMethodology == "flat") {
+            if (interestRateType == "year" && repaymentType == "days") {
+                own_amount_percentage = (amount * interestRate) / 100;
+                own_interest_per_transaction = own_amount_percentage / repaymentFrequency;
+                own_no_of_transaction = loanTerm / repaymentFrequency;
+                own_per_transaction_amount = amount / own_no_of_transaction;
+            } else if (interestRateType == "year" && repaymentType == "weeks") {
+                own_amount_percentage = ((amount * interestRate) / 100);
+                own_interest_per_transaction = own_amount_percentage / repaymentFrequency;
+                own_no_of_transaction = loanTerm / repaymentFrequency;
+                own_per_transaction_amount = amount / own_no_of_transaction;
+            } else if (interestRateType == "year" && repaymentType == "months") {
+                own_amount_percentage = ((amount * interestRate) / 100);
+                own_interest_per_transaction = own_amount_percentage / 12;
+                own_no_of_transaction = loanTerm / repaymentFrequency;
+                own_per_transaction_amount = amount / own_no_of_transaction;
+            } else if (interestRateType == "month" && repaymentType == "days") {
+                own_amount_percentage = ((amount * interestRate) / 100);
+                own_interest_per_transaction = own_amount_percentage / 30;
+                own_no_of_transaction = loanTerm / repaymentFrequency;
+                own_per_transaction_amount = amount / own_no_of_transaction;
+            } else if (interestRateType == "month" && repaymentType == "weeks") {
+                own_amount_percentage = ((amount * interestRate) / 100);
+                own_interest_per_transaction = own_amount_percentage / 4;
+                own_no_of_transaction = loanTerm / repaymentFrequency;
+                own_per_transaction_amount = amount / own_no_of_transaction;
+            } else if (interestRateType == "month" && repaymentType == "months") {
+                own_amount_percentage = ((amount * interestRate) / 100);
+                own_interest_per_transaction = own_amount_percentage;
+                own_no_of_transaction = loanTerm / repaymentFrequency;
+                own_per_transaction_amount = amount / own_no_of_transaction;
+            }
+        }
         let query =
             "UPDATE   loan SET loan_status_id='" +
             req.body.loan_status_id +
@@ -96,7 +141,15 @@ module.exports = {
             "', approvedNotes='" +
             req.body.approvedNotes +
             "', approvedAmount='" +
-            req.body.approvedAmount +
+            amount +
+            "', own_amount_percentage='" +
+            own_amount_percentage.toFixed(0) +
+            "', own_interest_per_transaction='" +
+            own_interest_per_transaction.toFixed(0) +
+            "', own_no_of_transaction='" +
+            own_no_of_transaction.toFixed(0) +
+            "', own_per_transaction_amount='" +
+            own_per_transaction_amount.toFixed(0) +
             "'" +
             " WHERE id=" +
             req.body.loan_id;
@@ -124,7 +177,7 @@ module.exports = {
             req.body.currenctDate +
             "', writeOffNote='" +
             req.body.writeOffNote +
-           
+
             "'" +
             " WHERE id=" +
             req.body.loan_id;
@@ -143,8 +196,8 @@ module.exports = {
             }
         });
     },
-    
-    
+
+
     loanChangeOfficer: (req, res) => {
         let query =
             "UPDATE   loan SET loanOfficer_user_id='" +
@@ -189,7 +242,7 @@ module.exports = {
             }
         });
     },
-    
+
     loanUndoApprovel: (req, res) => {
         let query =
             "UPDATE   loan SET loan_status_id='" +
@@ -285,7 +338,7 @@ module.exports = {
             }
         });
     },
-    
+
 
     loanDisburse: (req, res) => {
         let query =
@@ -330,6 +383,53 @@ module.exports = {
                 });
             }
         });
+    },
+
+    loanDisburseDis: (req, res) => {
+
+
+        // let query =
+        //     "UPDATE   loan SET loan_status_id='" +
+        //     req.body.loan_status_id +
+        //     "', disburseAccount='" +
+        //     req.body.disburseAccount +
+        //     "', disburseCheque='" +
+        //     req.body.disburseCheque +
+        //     "', disburseRoutingCode='" +
+        //     req.body.disburseRoutingCode +
+        //     "', disburseReceipt='" +
+        //     req.body.disburseReceipt +
+        //     "', disburseBank='" +
+        //     req.body.disburseBank +
+        //     "', disburseDate='" +
+        //     req.body.currenctDate +
+        //     "', disburseNotes='" +
+        //     req.body.disburseNotes +
+        //     "', disburseAmount='" +
+        //     req.body.disburseAmount +
+        //     "', expectedDisbursementDate='" +
+        //     req.body.expectedDisbursementDate +
+        //     "', expectedFirstRepaymentDate='" +
+        //     req.body.expectedFirstRepaymentDate +
+
+
+        //     "'" +
+        //     " WHERE id=" +
+        //     req.body.loan_id;
+        // db.query(query, (err, result) => {
+        //     if (err) {
+        //         res.status(400).json({
+        //             success: false,
+        //             message: "Something is really bad happens",
+        //         });
+        //     } else {
+        //         res.status(200).json({
+        //             success: true,
+        //             message: "Success",
+        //             result: "Successfully Disburse",
+        //         });
+        //     }
+        // });
     },
 
     deleteLoan: (req, res) => {
@@ -395,7 +495,7 @@ module.exports = {
             req.body.interestRateType +
             "', interestMethodology='" +
             req.body.interestMethodology +
-            
+
             "', loanOfficer_user_id='" +
             req.body.loanOfficer_user_id +
             "', loanPurpose_id='" +
