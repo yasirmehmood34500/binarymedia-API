@@ -100,7 +100,7 @@ module.exports = {
         let own_interest_per_transaction = 0;
         let own_per_transaction_amount = 0;
         let own_no_of_transaction = 0;
-        if (interestMethodology == "flat") {
+        // if (interestMethodology == "flat") {
             if (interestRateType == "year" && repaymentType == "days") {
                 own_amount_percentage = (amount * interestRate) / 100;
                 own_interest_per_transaction = own_amount_percentage / repaymentFrequency;
@@ -132,7 +132,7 @@ module.exports = {
                 own_no_of_transaction = loanTerm / repaymentFrequency;
                 own_per_transaction_amount = amount / own_no_of_transaction;
             }
-        }
+        // }
         let query =
             "UPDATE   loan SET loan_status_id='" +
             req.body.loan_status_id +

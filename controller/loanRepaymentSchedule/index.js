@@ -1,7 +1,7 @@
 module.exports = {
     viewLoanRepaymentSchedule: (req, res) => {
         let query =
-            "SELECT id, loan_id, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties,  totalPaid FROM loan_repayment_schedule WHERE status =1";
+            "SELECT id, loan_id, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties, (principalDue+interestDue+fees+penalties) AS totalDue ,   totalPaid, ((principalDue+interestDue+fees+penalties)-totalPaid) AS totalOutStanding FROM loan_repayment_schedule WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -19,7 +19,7 @@ module.exports = {
     },
     viewLoanRepaymentScheduleLoanWise: (req, res) => {
         let query =
-            "SELECT id, loan_id, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties,  totalPaid FROM loan_repayment_schedule WHERE status =1 AND loan_id="+req.params.loan_id;
+            "SELECT id, loan_id, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties, (principalDue+interestDue+fees+penalties) AS totalDue ,  totalPaid, ((principalDue+interestDue+fees+penalties)-totalPaid) AS totalOutStanding FROM loan_repayment_schedule WHERE status =1 AND loan_id="+req.params.loan_id;
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -37,7 +37,7 @@ module.exports = {
     },
     singleLoanRepaymentSchedule: (req, res) => {
         let query =
-            "SELECT id, loan_id, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties,  totalPaid FROM loan_repayment_schedule WHERE id=" +
+            "SELECT id, loan_id, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties, (principalDue+interestDue+fees+penalties) AS totalDue ,   totalPaid,  ((principalDue+interestDue+fees+penalties)-totalPaid) AS totalOutStanding FROM loan_repayment_schedule WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
