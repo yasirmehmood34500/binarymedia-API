@@ -1,7 +1,7 @@
 module.exports = {
-    viewPayrollTemplate: (req, res) => {
+    viewPayrollTemplateItemList: (req, res) => {
         let query =
-            "SELECT id, name, workDuration, durationUnit,amountPerDuration,description FROM payroll_templates WHERE status = 1";
+            "SELECT id, payroll_items_id, payroll_templates_id FROM payroll_templates_items_list WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -17,9 +17,9 @@ module.exports = {
             }
         });
     },
-    singlePayrollTemplate: (req, res) => {
+    singlePayrollTemplateItemList: (req, res) => {
         let query =
-            "SELECT   id, name, workDuration, durationUnit,amountPerDuration,description  FROM  payroll_templates WHERE id=" +
+            "SELECT id, payroll_items_id, payroll_templates_id FROM payroll_templates_items_list WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -37,9 +37,9 @@ module.exports = {
             }
         });
     },
-    deletePayrollTemplate: (req, res) => {
+    deletePayrollTemplateItemList: (req, res) => {
         let query =
-            "UPDATE  payroll_templates SET status = 0 WHERE id=" +
+            "UPDATE payroll_templates_items_list  SET status = 0 WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -57,7 +57,7 @@ module.exports = {
             }
         });
     },
-    addPayrollTemplate: (req, res) => {
+    addPayrollTemplateItemList: (req, res) => {
         let ts = Date.now();
 
         let date_ob = new Date(ts);
@@ -65,17 +65,11 @@ module.exports = {
         let month = date_ob.getMonth() + 1;
         let year = date_ob.getFullYear();
         let query =
-            "INSERT INTO  payroll_templates SET name='" +
-            req.body.name +
-            "', workDuration='" +
-            req.body.workDuration +
-            "', durationUnit= '" +
-            req.body.durationUnit +
-            "', amountPerDuration='" +
-            req.body.amountPerDuration +
-            
-            "', description= '" +
-            req.body.description +
+            "INSERT INTO  payroll_templates_items_list SET payroll_items_id='" +
+            req.body.payroll_items_id +
+            "', payroll_templates_id='" +
+            req.body.payroll_templates_id +
+           
             "', createAt='" +
             year +
             "-" +
@@ -94,24 +88,17 @@ module.exports = {
                     success: true,
                     message: "Success",
                     result: "Successfully Added",
-                    insertId: result.insertId,
                 });
             }
         });
     },
-    updatePayrollTemplate: (req, res) => {
+    updatePayrollTemplateItemList: (req, res) => {
         let query =
-            "UPDATE  payroll_templates SET name='" +
-            req.body.name +
-            "', workDuration='" +
-            req.body.workDuration +
-            "', durationUnit= '" +
-            req.body.durationUnit +
-            "', amountPerDuration='" +
-            req.body.amountPerDuration +
+            "UPDATE payroll_templates_items_list SET payroll_items_id='" +
+            req.body.payroll_items_id +
+            "', payroll_templates_id='" +
+            req.body.payroll_templates_id +
            
-            "', description= '" +
-            req.body.description +
             "' WHERE id=" +
             req.body.id;
         db.query(query, (err, result) => {
@@ -129,4 +116,6 @@ module.exports = {
             }
         });
     },
+
+   
 };
