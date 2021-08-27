@@ -280,6 +280,7 @@ const {
   updatePayrollPayment,
   deletePayrollPayment,
   payrollPaymentPayrollWise,
+  deletePayrollPaymentPayrollWise,
 } = require("./controller/payrollPayment");
 const {
   viewPayrollTemplate,
@@ -294,6 +295,7 @@ const {
   addPayrollTemplateItemList,
   updatePayrollTemplateItemList,
   deletePayrollTemplateItemList,
+  viewPayrollTemplateItemListPayrollTemplateWise,
 } = require("./controller/payrollTemplateItemList");
 const {
   viewProfessions,
@@ -433,6 +435,8 @@ router.get(
 router.post(version + "/payrollPayment", addPayrollPayment);
 router.put(version + "/payrollPayment", updatePayrollPayment);
 router.delete(version + "/payrollPayment/:id", deletePayrollPayment);
+router.delete(version + "/payrollPaymentPayrollWise/:payrollId", deletePayrollPaymentPayrollWise);
+
 
 // payroll routes
 router.get(version + "/payroll", viewPayroll);
@@ -569,6 +573,11 @@ router.get(
   version + "/payrollTemplateItemList/:id",
   singlePayrollTemplateItemList
 );
+router.get(
+  version + "/payrollTemplateItemListPayrollTemplateWise/:payrollTemplateId",
+  viewPayrollTemplateItemListPayrollTemplateWise
+);
+
 router.post(version + "/payrollTemplateItemList", addPayrollTemplateItemList);
 router.put(version + "/payrollTemplateItemList", updatePayrollTemplateItemList);
 router.delete(

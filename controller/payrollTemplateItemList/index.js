@@ -17,6 +17,24 @@ module.exports = {
             }
         });
     },
+    viewPayrollTemplateItemListPayrollTemplateWise: (req, res) => {
+        let query =
+            "SELECT payroll_items.id, payroll_items.name, payroll_items.type, payroll_items.amountType, payroll_items.amount FROM payroll_templates_items_list LEFT JOIN payroll_items ON payroll_templates_items_list.payroll_items_id = payroll_items.id WHERE payroll_templates_items_list.status =1 AND payroll_templates_items_list.payroll_templates_id ="+req.params.payrollTemplateId;
+            db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: result,
+                });
+            }
+        });
+    },
     singlePayrollTemplateItemList: (req, res) => {
         let query =
             "SELECT id, payroll_items_id, payroll_templates_id FROM payroll_templates_items_list WHERE id=" +

@@ -1,9 +1,9 @@
 module.exports = {
     viewPayrollPayment: (req, res) => {
         let query =
-            "SELECT id, amount, date,  paymentType_id, (SELECT name FROm payment_type WHERE id=payroll_payment.paymentType_id) AS paymentType, account, cheque, routingCode, receipt, bank, description FROM payroll_payment WHERE status =1";
-      
-            db.query(query, (err, result) => {
+            "SELECT id, payroll_id,  paymentType_id, (SELECT name FROM payment_type WHERE id=payroll_payment.paymentType_id) AS paymentType, name, type, amountType, amount, debit, credit, date,  account, cheque, routingCode, receipt, bank, description FROM payroll_payment WHERE status =1";
+
+        db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
                     success: false,
@@ -18,12 +18,12 @@ module.exports = {
             }
         });
     },
-    
+
     payrollPaymentPayrollWise: (req, res) => {
         let query =
-            "SELECT id, amount, date,  paymentType_id, (SELECT name FROm payment_type WHERE id=payroll_payment.paymentType_id) AS paymentType, account, cheque, routingCode, receipt, bank, description FROM payroll_payment WHERE status =1 AND payroll_id = "+req.params.id;
-        
-            db.query(query, (err, result) => {
+            "SELECT id, payroll_id,  paymentType_id, (SELECT name FROM payment_type WHERE id=payroll_payment.paymentType_id) AS paymentType, name, type, amountType, amount, debit, credit, date,  account, cheque, routingCode, receipt, bank, description FROM payroll_payment WHERE status =1 AND payroll_id = " + req.params.id;
+
+        db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
                     success: false,
@@ -40,7 +40,7 @@ module.exports = {
     },
     singlePayrollPayment: (req, res) => {
         let query =
-            "SELECT id, amount, date, paymentType_id, (SELECT name FROm payment_type WHERE id=payroll_payment.paymentType_id) AS paymentType, account, cheque, routingCode, receipt, bank, description FROM payroll_payment WHERE id=" +
+            "SELECT id, payroll_id,  paymentType_id, (SELECT name FROM payment_type WHERE id=payroll_payment.paymentType_id) AS paymentType, name, type, amountType, amount, debit, credit, date,  account, cheque, routingCode, receipt, bank, description FROM payroll_payment WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -78,6 +78,26 @@ module.exports = {
             }
         });
     },
+    deletePayrollPaymentPayrollWise: (req, res) => {
+        let query =
+            "UPDATE payroll_payment  SET status = 0 WHERE payroll_id=" +
+            req.params.payrollId +
+            " AND status =1";
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Deleted",
+                });
+            }
+        });
+    },
     addPayrollPayment: (req, res) => {
         let ts = Date.now();
 
@@ -85,16 +105,26 @@ module.exports = {
         let date = date_ob.getDate();
         let month = date_ob.getMonth() + 1;
         let year = date_ob.getFullYear();
-       
+
         let query =
-            "INSERT INTO  payroll_payment SET amount='" +
-            req.body.amount +
-            "', payroll_id='" +
+            "INSERT INTO  payroll_payment SET payroll_id='" +
             req.body.payroll_id +
-            "', date='" +
-            req.body.date +
             "', paymentType_id='" +
             req.body.paymentType_id +
+            "', name='" +
+            req.body.name +
+            "', type='" +
+            req.body.type +
+            "', amountType='" +
+            req.body.amountType +
+            "', amount='" +
+            req.body.amount +
+            "', debit='" +
+            req.body.debit +
+            "', credit='" +
+            req.body.credit +
+            "', date='" +
+            req.body.date +
             "', account='" +
             req.body.account +
             "', cheque='" +
@@ -107,7 +137,7 @@ module.exports = {
             req.body.bank +
             "', description='" +
             req.body.description +
-           
+
             "', createAt='" +
             year +
             "-" +
@@ -132,14 +162,24 @@ module.exports = {
     },
     updatePayrollPayment: (req, res) => {
         let query =
-            "UPDATE payroll_payment SET amount='" +
-            req.body.amount +
-            "', payroll_id='" +
+            "UPDATE payroll_payment SET payroll_id='" +
             req.body.payroll_id +
-            "', date='" +
-            req.body.date +
             "', paymentType_id='" +
             req.body.paymentType_id +
+            "', name='" +
+            req.body.name +
+            "', type='" +
+            req.body.type +
+            "', amountType='" +
+            req.body.amountType +
+            "', amount='" +
+            req.body.amount +
+            "', debit='" +
+            req.body.debit +
+            "', credit='" +
+            req.body.credit +
+            "', date='" +
+            req.body.date +
             "', account='" +
             req.body.account +
             "', cheque='" +
@@ -152,8 +192,8 @@ module.exports = {
             req.body.bank +
             "', description='" +
             req.body.description +
-           
-           
+
+
             "' WHERE id=" +
             req.body.id;
         db.query(query, (err, result) => {
@@ -172,5 +212,5 @@ module.exports = {
         });
     },
 
-   
+
 };
