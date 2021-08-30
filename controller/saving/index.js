@@ -93,7 +93,7 @@ module.exports = {
             req.body.lockinPeriodFrequency +
             "', lockinPeriodFrequencyType='" +
             req.body.lockinPeriodFrequencyType +
-            
+
             "', createAt='" +
             year +
             "-" +
@@ -147,7 +147,7 @@ module.exports = {
             req.body.lockinPeriodFrequency +
             "', lockinPeriodFrequencyType='" +
             req.body.lockinPeriodFrequencyType +
-           
+
             "' WHERE id=" +
             req.body.id;
         db.query(query, (err, result) => {
@@ -166,5 +166,286 @@ module.exports = {
         });
     },
 
-   
+    approveSaving: (req, res) => {
+        let query =
+            "UPDATE saving SET approveDate='" +
+            req.body.approveDate +
+            "', approveNote='" +
+            req.body.approveNote +
+            "', saving_status_id='" +
+            2 +
+
+            "' WHERE id=" +
+            req.body.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+    rejectSaving: (req, res) => {
+        let query =
+            "UPDATE saving SET rejectNote='" +
+            req.body.rejectNote +
+            "', saving_status_id='" +
+            4 +
+
+            "' WHERE id=" +
+            req.body.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+    withdrawSaving: (req, res) => {
+        let query =
+            "UPDATE saving SET withdrawNote='" +
+            req.body.withdrawNote +
+            "', saving_status_id='" +
+            5 +
+
+            "' WHERE id=" +
+            req.body.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+    activateSaving: (req, res) => {
+        let query =
+            "UPDATE saving SET activationDate='" +
+            req.body.activationDate +
+            "', activationNote='" +
+            req.body.activationNote +
+            "', saving_status_id='" +
+            3 +
+
+            "' WHERE id=" +
+            req.body.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+    closeSaving: (req, res) => {
+        let query =
+            "UPDATE saving SET closeNote='" +
+            req.body.closeNote +
+            "', saving_status_id='" +
+            6 +
+
+            "' WHERE id=" +
+            req.body.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+    changeSavingOfficer: (req, res) => {
+        let query =
+            "UPDATE saving SET savingOfficer_user_id='" +
+            req.body.savingOfficer_user_id +
+
+            "' WHERE id=" +
+            req.body.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+    undoCloseSaving: (req, res) => {
+        let query =
+            "UPDATE saving SET closeNote='" +
+            "" +
+            "', saving_status_id='" +
+            3 +
+
+            "' WHERE id=" +
+            req.params.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+    undoActivateSaving: (req, res) => {
+        let query =
+            "UPDATE saving SET activationDate='" +
+            "" +
+            "', activationNote='" +
+            "" +
+            "', saving_status_id='" +
+            2 +
+
+            "' WHERE id=" +
+            req.params.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+    undoApprovalSaving: (req, res) => {
+        let query =
+            "UPDATE saving SET approveDate='" +
+            "" +
+            "', approveNote='" +
+            "" +
+            "', saving_status_id='" +
+            1 +
+
+            "' WHERE id=" +
+            req.params.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+    undoRejectSaving: (req, res) => {
+        let query =
+            "UPDATE saving SET rejectNote='" +
+            "" +
+            "', saving_status_id='" +
+            1 +
+
+            "' WHERE id=" +
+            req.params.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+    undoWithdrawSaving: (req, res) => {
+        let query =
+            "UPDATE saving SET withdrawNote='" +
+            "" +
+            "', saving_status_id='" +
+            1 +
+
+            "' WHERE id=" +
+            req.params.id;
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Updated",
+                });
+            }
+        });
+    },
+
+
 };

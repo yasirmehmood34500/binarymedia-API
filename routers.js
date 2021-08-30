@@ -317,6 +317,17 @@ const {
   addSaving,
   updateSaving,
   deleteSaving,
+  approveSaving,
+  rejectSaving,
+  withdrawSaving,
+  activateSaving,
+  closeSaving,
+  changeSavingOfficer,
+  undoCloseSaving,
+  undoActivateSaving,
+  undoApprovalSaving,
+  undoRejectSaving,
+  undoWithdrawSaving,
 } = require("./controller/saving");
 const {
   viewSavingCharges,
@@ -782,6 +793,18 @@ router.get(version + "/saving/:id", singleSaving);
 router.post(version + "/saving", addSaving);
 router.put(version + "/saving", updateSaving);
 router.delete(version + "/saving/:id", deleteSaving);
+router.post(version + "/approveSaving", approveSaving);
+router.post(version + "/rejectSaving", rejectSaving);
+router.post(version + "/withdrawSaving", withdrawSaving);
+router.post(version + "/activateSaving", activateSaving);
+router.post(version + "/closeSaving", closeSaving);
+router.post(version + "/changeSavingOfficer", changeSavingOfficer);
+router.get(version + "/undoCloseSaving/:id", undoCloseSaving);
+router.get(version + "/undoActivateSaving/:id", undoActivateSaving);
+router.get(version + "/undoApprovalSaving/:id", undoApprovalSaving);
+router.get(version + "/undoRejectSaving/:id", undoRejectSaving);
+router.get(version + "/undoWithdrawSaving/:id", undoWithdrawSaving);
+
 
 // charge on saving  routes
 router.get(version + "/chargeOnSaving", viewChargeOnSaving);
