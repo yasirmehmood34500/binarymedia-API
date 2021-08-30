@@ -1,7 +1,7 @@
 module.exports = {
     viewSavingProduct: (req, res) => {
         let query =
-            "SELECT id, name, shortName,  description, currency_id, decimalPlaces, category, autoCreate, compoundingPeriod, interestPostingPeriodType, interestCalculationType, lockinPeriodFrequency, lockinPeriodFrequencyType, automaticOpeningBalance, minimumBalanceForInterestCalculation, AllowOverdraft, charges, accountingRule, savingsReference, overdraftPortfolio, savingsControl, interestOnSavings, writeOffSavings, incomeFromFees, incomeFromPenalties, incomeFromInterest, active  FROM saving_product WHERE status =1";
+            "SELECT id, name, shortName,  description, currency_id, decimalPlaces, interest, category, autoCreate, compoundingPeriod, interestPostingPeriodType, interestCalculationType, lockinPeriodFrequency, lockinPeriodFrequencyType, automaticOpeningBalance, minimumBalanceForInterestCalculation, AllowOverdraft, accountingRule, savingsReference, overdraftPortfolio, savingsControl, interestOnSavings, writeOffSavings, incomeFromFees, incomeFromPenalties, incomeFromInterest, active  FROM saving_product WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -19,7 +19,7 @@ module.exports = {
     },
     singleSavingProduct: (req, res) => {
         let query =
-            "SELECT id, name, shortName,  description, currency_id, decimalPlaces, category, autoCreate, compoundingPeriod, interestPostingPeriodType, interestCalculationType, lockinPeriodFrequency, lockinPeriodFrequencyType, automaticOpeningBalance, minimumBalanceForInterestCalculation, AllowOverdraft, charges, accountingRule, savingsReference, overdraftPortfolio, savingsControl, interestOnSavings, writeOffSavings, incomeFromFees, incomeFromPenalties, incomeFromInterest, active FROM saving_product WHERE id=" +
+            "SELECT id, name, shortName,  description, currency_id, decimalPlaces, interest, category, autoCreate, compoundingPeriod, interestPostingPeriodType, interestCalculationType, lockinPeriodFrequency, lockinPeriodFrequencyType, automaticOpeningBalance, minimumBalanceForInterestCalculation, AllowOverdraft, accountingRule, savingsReference, overdraftPortfolio, savingsControl, interestOnSavings, writeOffSavings, incomeFromFees, incomeFromPenalties, incomeFromInterest, active FROM saving_product WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -75,6 +75,8 @@ module.exports = {
             req.body.currency_id +
             "', decimalPlaces='" +
             req.body.decimalPlaces +
+            "', interest='" +
+            req.body.interest +
             "', category='" +
             req.body.category +
             "', autoCreate='" +
@@ -95,8 +97,6 @@ module.exports = {
             req.body.minimumBalanceForInterestCalculation +
             "', AllowOverdraft='" +
             req.body.AllowOverdraft +
-            "', charges='" +
-            req.body.charges +
             "', accountingRule='" +
             req.body.accountingRule +
             "', savingsReference='" +
@@ -135,6 +135,7 @@ module.exports = {
                     success: true,
                     message: "Success",
                     result: "Successfully Added",
+                    insertId: result.insertId,
                 });
             }
         });
@@ -151,6 +152,8 @@ module.exports = {
             req.body.currency_id +
             "', decimalPlaces='" +
             req.body.decimalPlaces +
+            "', interest='" +
+            req.body.interest +
             "', category='" +
             req.body.category +
             "', autoCreate='" +
@@ -171,8 +174,7 @@ module.exports = {
             req.body.minimumBalanceForInterestCalculation +
             "', AllowOverdraft='" +
             req.body.AllowOverdraft +
-            "', charges='" +
-            req.body.charges +
+            
             "', accountingRule='" +
             req.body.accountingRule +
             "', savingsReference='" +

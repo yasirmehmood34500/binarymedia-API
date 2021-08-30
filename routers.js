@@ -324,6 +324,7 @@ const {
   addSavingCharges,
   updateSavingCharges,
   deleteSavingCharges,
+  viewSavingChargesCurrencyWise,
 } = require("./controller/savingCharges");
 const {
   viewSavingProduct,
@@ -332,6 +333,7 @@ const {
   updateSavingProduct,
   deleteSavingProduct,
 } = require("./controller/savingProduct");
+const { viewSavingProductCharges, singleSavingProductCharges, addSavingProductCharges, updateSavingProductCharges, deleteSavingProductCharges, viewSavingProductChargesProductWise, viewSavingProductChargesSavingWise } = require("./controller/savingProductCharges");
 const {
   viewTimeZone,
   singleTimeZone,
@@ -682,6 +684,22 @@ router.post(version + "/loanProductCharges", addLoanProductCharges);
 router.put(version + "/loanProductCharges", updateLoanProductCharges);
 router.delete(version + "/loanProductCharges/:id", deleteLoanProductCharges);
 
+// saving product charges routes
+router.get(version + "/savingProductCharges", viewSavingProductCharges);
+
+router.get(version + "/savingProductCharges/:id", singleSavingProductCharges);
+router.post(version + "/savingProductCharges", addSavingProductCharges);
+router.put(version + "/savingProductCharges", updateSavingProductCharges);
+router.delete(version + "/savingProductCharges/:id", deleteSavingProductCharges);
+router.get(
+  version + "/savingProductChargesProductWise/:saving_products_id",
+  viewSavingProductChargesProductWise
+);
+router.get(
+  version + "/savingProductChargesSavingWise/:saving_id",
+  viewSavingProductChargesSavingWise
+);
+
 // loan charges routes
 router.get(version + "/loanCharges", viewLoanCharges);
 router.get(version + "/loanCharges/:id", singleLoanCharges);
@@ -746,6 +764,10 @@ router.get(version + "/savingCharges/:id", singleSavingCharges);
 router.post(version + "/savingCharges", addSavingCharges);
 router.put(version + "/savingCharges", updateSavingCharges);
 router.delete(version + "/savingCharges/:id", deleteSavingCharges);
+router.get(
+  version + "/savingChargesCurrencyWise/:id",
+  viewSavingChargesCurrencyWise
+);
 
 // saving product routes
 router.get(version + "/savingProduct", viewSavingProduct);

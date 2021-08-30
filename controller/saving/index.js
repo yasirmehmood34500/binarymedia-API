@@ -1,7 +1,7 @@
 module.exports = {
     viewSaving: (req, res) => {
         let query =
-            "SELECT id, client_id, (SELECT firstName FROM client WHERE id=saving.client_id) AS client, savingProduct_id, (SELECT name FROM saving_product WHERE id=saving.savingProduct_id) AS savingProduct, savingOfficer_user_id, (SELECT firstName FROM user WHERE id=saving.savingOfficer_user_id)  AS user, interestRate, automaticOpeningBalance, lockinPeriodFrequency, lockinPeriodFrequencyType FROM saving WHERE status =1";
+            "SELECT id, client_id, (SELECT firstName FROM client WHERE id=saving.client_id) AS client, savingProduct_id, (SELECT name FROM saving_product WHERE id=saving.savingProduct_id) AS savingProduct, savingOfficer_user_id, (SELECT firstName FROM user WHERE id=saving.savingOfficer_user_id)  AS user, saving_status_id, (SELECT name FROM saving_status WHERE id=saving.saving_status_id) AS savingStatus, accountNumber, externalId, currency_id, (SELECT name FROM currency WHERE id=saving.currency_id) AS currency, category, compoundingPeriod, interestPostingPeriodType, interestCalculationType,  interest, automaticOpeningBalance, lockinPeriodFrequency, lockinPeriodFrequencyType, approveDate, approveNote, activationDate, activationNote	 FROM saving WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -19,7 +19,7 @@ module.exports = {
     },
     singleSaving: (req, res) => {
         let query =
-            "SELECT  id, client_id, (SELECT firstName FROM client WHERE id=saving.client_id) AS client, savingProduct_id, (SELECT name FROM saving_product WHERE id=saving.savingProduct_id) AS savingProduct, savingOfficer_user_id, (SELECT firstName FROM user WHERE id=saving.savingOfficer_user_id)  AS user, interestRate, automaticOpeningBalance, lockinPeriodFrequency, lockinPeriodFrequencyType FROM FROM saving WHERE id=" +
+            "SELECT  id, client_id, (SELECT firstName FROM client WHERE id=saving.client_id) AS client, savingProduct_id, (SELECT name FROM saving_product WHERE id=saving.savingProduct_id) AS savingProduct, savingOfficer_user_id, (SELECT firstName FROM user WHERE id=saving.savingOfficer_user_id)  AS user, saving_status_id, (SELECT name FROM saving_status WHERE id=saving.saving_status_id) AS savingStatus, accountNumber, externalId, currency_id, (SELECT name FROM currency WHERE id=saving.currency_id) AS currency, category, compoundingPeriod, interestPostingPeriodType, interestCalculationType,  interest, automaticOpeningBalance, lockinPeriodFrequency, lockinPeriodFrequencyType, approveDate, approveNote, activationDate, activationNote	 FROM saving  WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -71,8 +71,22 @@ module.exports = {
             req.body.savingProduct_id +
             "', savingOfficer_user_id='" +
             req.body.savingOfficer_user_id +
-            "', interestRate='" +
-            req.body.interestRate +
+            "', accountNumber='" +
+            req.body.accountNumber +
+            "', externalId='" +
+            req.body.externalId +
+            "', currency_id='" +
+            req.body.currency_id +
+            "', category='" +
+            req.body.category +
+            "', compoundingPeriod='" +
+            req.body.compoundingPeriod +
+            "', interestPostingPeriodType='" +
+            req.body.interestPostingPeriodType +
+            "', interestCalculationType='" +
+            req.body.interestCalculationType +
+            "', interest='" +
+            req.body.interest +
             "', automaticOpeningBalance='" +
             req.body.automaticOpeningBalance +
             "', lockinPeriodFrequency='" +
@@ -98,6 +112,7 @@ module.exports = {
                     success: true,
                     message: "Success",
                     result: "Successfully Added",
+                    insertId: result.insertId,
                 });
             }
         });
@@ -110,8 +125,22 @@ module.exports = {
             req.body.savingProduct_id +
             "', savingOfficer_user_id='" +
             req.body.savingOfficer_user_id +
-            "', interestRate='" +
-            req.body.interestRate +
+            "', accountNumber='" +
+            req.body.accountNumber +
+            "', externalId='" +
+            req.body.externalId +
+            "', currency_id='" +
+            req.body.currency_id +
+            "', category='" +
+            req.body.category +
+            "', compoundingPeriod='" +
+            req.body.compoundingPeriod +
+            "', interestPostingPeriodType='" +
+            req.body.interestPostingPeriodType +
+            "', interestCalculationType='" +
+            req.body.interestCalculationType +
+            "', interest='" +
+            req.body.interest +
             "', automaticOpeningBalance='" +
             req.body.automaticOpeningBalance +
             "', lockinPeriodFrequency='" +

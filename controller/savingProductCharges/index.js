@@ -1,7 +1,7 @@
 module.exports = {
-    viewSavingCharges: (req, res) => {
+    viewSavingProductCharges: (req, res) => {
         let query =
-            "SELECT id, name, chargeType, amount, chargeOption, currency_id, override, active FROM saving_charges WHERE status =1";
+            "SELECT id, saving_charges_id, saving_products_id FROM  saving_product_charges WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -17,9 +17,49 @@ module.exports = {
             }
         });
     },
-    singleSavingCharges: (req, res) => {
+
+    viewSavingProductChargesProductWise: (req, res) => {
         let query =
-            "SELECT  id,name,  chargeType, amount, chargeOption, currency_id,  override, active FROM saving_charges WHERE id=" +
+            "SELECT id, saving_charges_id, saving_products_id, (SELECT currency_id FROM saving_products WHERE id =saving_product_charges.saving_products_id) AS currency_id FROM  saving_product_charges WHERE status =1 AND saving_products_id ="+req.params.saving_products_id;
+            
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: result,
+                });
+            }
+        });
+    },
+    
+    viewSavingProductChargesSavingWise: (req, res) => {
+        let query =
+            "SELECT * FROM saving_charges WHERE id IN (SELECT saving_charges_id FROM saving_product_charges WHERE saving_products_id=(SELECT savingProduct_id FROM saving WHERE id="+req.params.saving_id+"))";
+            
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: result,
+                });
+            }
+        });
+    },
+    singleSavingProductCharges: (req, res) => {
+        let query =
+            "SELECT id, saving_charges_id, saving_products_id FROM  saving_product_charges WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -37,28 +77,9 @@ module.exports = {
             }
         });
     },
-    viewSavingChargesCurrencyWise: (req, res) => {
+    deleteSavingProductCharges: (req, res) => {
         let query =
-            "SELECT id, name, chargeType, amount, chargeOption, currency_id, (SELECT name FROM currency WHERE id=saving_charges.currency_id) AS currency,  override, active FROM saving_charges WHERE status =1 AND currency_id ="+req.params.id;
-        
-            db.query(query, (err, result) => {
-            if (err) {
-                res.status(400).json({
-                    success: false,
-                    message: "Something is really bad happens",
-                });
-            } else {
-                res.status(200).json({
-                    success: true,
-                    message: "Success",
-                    result: result,
-                });
-            }
-        });
-    },
-    deleteSavingCharges: (req, res) => {
-        let query =
-            "UPDATE saving_charges  SET status = 0 WHERE id=" +
+            "UPDATE  saving_product_charges  SET status = 0 WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -76,7 +97,7 @@ module.exports = {
             }
         });
     },
-    addSavingCharges: (req, res) => {
+    addSavingProductCharges: (req, res) => {
         let ts = Date.now();
 
         let date_ob = new Date(ts);
@@ -84,21 +105,10 @@ module.exports = {
         let month = date_ob.getMonth() + 1;
         let year = date_ob.getFullYear();
         let query =
-            "INSERT INTO  saving_charges SET name='" +
-            req.body.name +
-            "', chargeType='" +
-            req.body.chargeType +
-            "', amount='" +
-            req.body.amount +
-            "', chargeOption='" +
-            req.body.chargeOption +
-            "', currency_id='" +
-            req.body.currency_id +
-            "', override='" +
-            req.body.override +
-            "', active='" +
-            req.body.active +
-
+            "INSERT INTO   saving_product_charges SET saving_charges_id='" +
+            req.body.saving_charges_id +
+            "', saving_products_id='" +
+            req.body.saving_products_id +
            
             "', createAt='" +
             year +
@@ -122,21 +132,13 @@ module.exports = {
             }
         });
     },
-    updateSavingCharges: (req, res) => {
+    updateSavingProductCharges: (req, res) => {
         let query =
-            "UPDATE saving_charges SET name='" +
-            req.body.name +
-            "', chargeType='" +
-            req.body.chargeType +
-            "', amount='" +
-            req.body.amount +
-            "', chargeOption='" +
-            req.body.chargeOption +
-            "', currency_id='" +
-            "', override='" +
-            req.body.override +
-            "', active='" +
-            req.body.active +
+            "UPDATE  saving_product_charges SET saving_charges_id='" +
+            req.body.saving_charges_id +
+            "', saving_products_id='" +
+            req.body.saving_products_id +
+           
            
             "' WHERE id=" +
             req.body.id;
