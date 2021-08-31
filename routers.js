@@ -345,6 +345,7 @@ const {
   deleteSavingProduct,
 } = require("./controller/savingProduct");
 const { viewSavingProductCharges, singleSavingProductCharges, addSavingProductCharges, updateSavingProductCharges, deleteSavingProductCharges, viewSavingProductChargesProductWise, viewSavingProductChargesSavingWise } = require("./controller/savingProductCharges");
+const { viewSavingTransactionList, singleSavingTransactionList, addSavingTransactionList, updateSavingTransactionList, deleteSavingTransactionList, calculateSavingTransactionList, viewSavingTransactionListSavingWise, reverseSavingTransactionList } = require("./controller/savingTransactionList");
 const {
   viewTimeZone,
   singleTimeZone,
@@ -786,6 +787,17 @@ router.get(version + "/savingProduct/:id", singleSavingProduct);
 router.post(version + "/savingProduct", addSavingProduct);
 router.put(version + "/savingProduct", updateSavingProduct);
 router.delete(version + "/savingProduct/:id", deleteSavingProduct);
+
+// saving transaction list routes
+router.get(version + "/savingTransactionList", viewSavingTransactionList);
+router.get(version + "/savingTransactionList/:id", singleSavingTransactionList);
+router.post(version + "/savingTransactionList", addSavingTransactionList);
+router.put(version + "/savingTransactionList", updateSavingTransactionList);
+router.delete(version + "/savingTransactionList/:id", deleteSavingTransactionList);
+router.get(version + "/savingTransactionListSavingWise/:saving_id", viewSavingTransactionListSavingWise);
+router.get(version + "/calculateSavingTransactionList/:saving_id", calculateSavingTransactionList);
+router.put(version + "/reverseSavingTransactionList", reverseSavingTransactionList);
+
 
 // saving  routes
 router.get(version + "/saving", viewSaving);
