@@ -330,6 +330,16 @@ const {
   undoWithdrawSaving,
 } = require("./controller/saving");
 const {
+  viewSavingChargeList,
+  singleSavingChargeList,
+  addSavingChargeList,
+  updateSavingChargeList,
+  deleteSavingChargeList,
+  viewSavingChargeListSavingWise,
+  viewSavingChargeListSavingWiseWithChargeType,
+  paidSavingChargeListIdWise,
+} = require("./controller/savingChargeList");
+const {
   viewSavingCharges,
   singleSavingCharges,
   addSavingCharges,
@@ -344,8 +354,26 @@ const {
   updateSavingProduct,
   deleteSavingProduct,
 } = require("./controller/savingProduct");
-const { viewSavingProductCharges, singleSavingProductCharges, addSavingProductCharges, updateSavingProductCharges, deleteSavingProductCharges, viewSavingProductChargesProductWise, viewSavingProductChargesSavingWise } = require("./controller/savingProductCharges");
-const { viewSavingTransactionList, singleSavingTransactionList, addSavingTransactionList, updateSavingTransactionList, deleteSavingTransactionList, calculateSavingTransactionList, viewSavingTransactionListSavingWise, reverseSavingTransactionList } = require("./controller/savingTransactionList");
+const {
+  viewSavingProductCharges,
+  singleSavingProductCharges,
+  addSavingProductCharges,
+  updateSavingProductCharges,
+  deleteSavingProductCharges,
+  viewSavingProductChargesProductWise,
+  viewSavingProductChargesSavingWise,
+} = require("./controller/savingProductCharges");
+const {
+  viewSavingTransactionList,
+  singleSavingTransactionList,
+  addSavingTransactionList,
+  updateSavingTransactionList,
+  deleteSavingTransactionList,
+  calculateSavingTransactionList,
+  viewSavingTransactionListSavingWise,
+  reverseSavingTransactionList,
+  deleteSavingTransactionListSavingWise,
+} = require("./controller/savingTransactionList");
 const {
   viewTimeZone,
   singleTimeZone,
@@ -449,8 +477,10 @@ router.get(
 router.post(version + "/payrollPayment", addPayrollPayment);
 router.put(version + "/payrollPayment", updatePayrollPayment);
 router.delete(version + "/payrollPayment/:id", deletePayrollPayment);
-router.delete(version + "/payrollPaymentPayrollWise/:payrollId", deletePayrollPaymentPayrollWise);
-
+router.delete(
+  version + "/payrollPaymentPayrollWise/:payrollId",
+  deletePayrollPaymentPayrollWise
+);
 
 // payroll routes
 router.get(version + "/payroll", viewPayroll);
@@ -702,7 +732,10 @@ router.get(version + "/savingProductCharges", viewSavingProductCharges);
 router.get(version + "/savingProductCharges/:id", singleSavingProductCharges);
 router.post(version + "/savingProductCharges", addSavingProductCharges);
 router.put(version + "/savingProductCharges", updateSavingProductCharges);
-router.delete(version + "/savingProductCharges/:id", deleteSavingProductCharges);
+router.delete(
+  version + "/savingProductCharges/:id",
+  deleteSavingProductCharges
+);
 router.get(
   version + "/savingProductChargesProductWise/:saving_products_id",
   viewSavingProductChargesProductWise
@@ -788,16 +821,41 @@ router.post(version + "/savingProduct", addSavingProduct);
 router.put(version + "/savingProduct", updateSavingProduct);
 router.delete(version + "/savingProduct/:id", deleteSavingProduct);
 
+// saving charge list routes
+router.get(version + "/savingChargeList", viewSavingChargeList);
+router.get(version + "/savingChargeList/:id", singleSavingChargeList);
+router.get(version + "/savingChargeListSavingWise/:saving_id", viewSavingChargeListSavingWise);
+router.post(version + "/savingChargeListSavingWise/:saving_id", viewSavingChargeListSavingWiseWithChargeType);
+router.post(version + "/savingChargeList", addSavingChargeList);
+router.put(version + "/savingChargeList", updateSavingChargeList);
+router.put(version + "/paidSavingChargeListIdWise", paidSavingChargeListIdWise);
+router.delete(version + "/savingChargeList/:id", deleteSavingChargeList);
+
 // saving transaction list routes
 router.get(version + "/savingTransactionList", viewSavingTransactionList);
 router.get(version + "/savingTransactionList/:id", singleSavingTransactionList);
 router.post(version + "/savingTransactionList", addSavingTransactionList);
 router.put(version + "/savingTransactionList", updateSavingTransactionList);
-router.delete(version + "/savingTransactionList/:id", deleteSavingTransactionList);
-router.get(version + "/savingTransactionListSavingWise/:saving_id", viewSavingTransactionListSavingWise);
-router.get(version + "/calculateSavingTransactionList/:saving_id", calculateSavingTransactionList);
-router.put(version + "/reverseSavingTransactionList", reverseSavingTransactionList);
-
+router.delete(
+  version + "/savingTransactionList/:id",
+  deleteSavingTransactionList
+);
+router.delete(
+  version + "/savingTransactionListSavingWise/:saving_id",
+  deleteSavingTransactionListSavingWise
+);
+router.get(
+  version + "/savingTransactionListSavingWise/:saving_id",
+  viewSavingTransactionListSavingWise
+);
+router.get(
+  version + "/calculateSavingTransactionList/:saving_id",
+  calculateSavingTransactionList
+);
+router.put(
+  version + "/reverseSavingTransactionList",
+  reverseSavingTransactionList
+);
 
 // saving  routes
 router.get(version + "/saving", viewSaving);
@@ -816,7 +874,6 @@ router.get(version + "/undoActivateSaving/:id", undoActivateSaving);
 router.get(version + "/undoApprovalSaving/:id", undoApprovalSaving);
 router.get(version + "/undoRejectSaving/:id", undoRejectSaving);
 router.get(version + "/undoWithdrawSaving/:id", undoWithdrawSaving);
-
 
 // charge on saving  routes
 router.get(version + "/chargeOnSaving", viewChargeOnSaving);

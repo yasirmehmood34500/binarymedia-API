@@ -59,7 +59,7 @@ module.exports = {
     calculateSavingTransactionList: (req, res) => {
         let saving_id = req.params.saving_id;
         let query =
-            "SELECT (SELECT SUM(credit-debit) FROM saving_transaction_list WHERE saving_id=" + saving_id + " AND transactionType='Deposit') AS totalDeposit, (SELECT SUM(debit) FROM saving_transaction_list WHERE saving_id=" + saving_id + " AND transactionType='Withdraw') AS totalWithdraw  FROM saving_transaction_list WHERE saving_id=" +
+            "SELECT (SELECT SUM(credit-debit) FROM saving_transaction_list WHERE saving_id=" + saving_id + " AND transactionType='Deposit' AND status=1) AS totalDeposit, (SELECT automaticOpeningBalance FROM saving WHERE id=saving_transaction_list.saving_id ) AS mainDeposit ,   (SELECT SUM(debit-credit) FROM saving_transaction_list WHERE saving_id=" + saving_id + " AND transactionType='Withdraw'  AND status=1) AS totalWithdraw, (SELECT SUM(debit-credit) FROM saving_transaction_list WHERE saving_id=" + saving_id + " AND transactionType='Pay Charge'  AND status=1) AS totalPayCharge  FROM saving_transaction_list WHERE saving_id=" +
             saving_id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -71,15 +71,18 @@ module.exports = {
             } else {
                 let data = {};
                 if (result.length > 0) {
-                     data = {
-                        totalDeposit: result[0].totalDeposit > 0 || result[0].totalDeposit < 0 ? result[0].totalDeposit : 0,
+                    data = {
+                        totalDeposit: result[0].totalDeposit > 0 || result[0].totalDeposit < 0 ? parseInt(result[0].totalDeposit) + parseInt(result[0].mainDeposit) : parseInt(result[0].mainDeposit),
                         totalWithdraw:
-                            result[0].totalWithdraw > 0 ||  result[0].totalWithdraw < 0 ? result[0].totalWithdraw : 0,
+                            result[0].totalWithdraw > 0 || result[0].totalWithdraw < 0 ? result[0].totalWithdraw : 0,
+                        totalPayCharge:
+                            result[0].totalPayCharge > 0 || result[0].totalPayCharge < 0 ? result[0].totalPayCharge : 0,
                     };
                 } else {
-                     data = {
+                    data = {
                         totalDeposit: 0,
                         totalWithdraw: 0,
+                        totalPayCharge: 0
                     };
                 }
 
@@ -95,6 +98,26 @@ module.exports = {
         let query =
             "UPDATE saving_transaction_list  SET status = 0 WHERE id=" +
             req.params.id +
+            " AND status =1";
+        db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: "Successfully Deleted",
+                });
+            }
+        });
+    },
+    deleteSavingTransactionListSavingWise: (req, res) => {
+        let query =
+            "UPDATE saving_transaction_list  SET status = 0 WHERE transactionType != 'Main Deposit' AND saving_id=" +
+            req.params.saving_id +
             " AND status =1";
         db.query(query, (err, result) => {
             if (err) {

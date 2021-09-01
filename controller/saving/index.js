@@ -149,6 +149,8 @@ module.exports = {
             req.body.lockinPeriodFrequency +
             "', lockinPeriodFrequencyType='" +
             req.body.lockinPeriodFrequencyType +
+            "', withdrawLockDate='" +
+            req.body.withdrawLockDate +
 
             "' WHERE id=" +
             req.body.id;

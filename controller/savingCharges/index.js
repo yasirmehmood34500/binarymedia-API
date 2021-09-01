@@ -133,6 +133,7 @@ module.exports = {
             "', chargeOption='" +
             req.body.chargeOption +
             "', currency_id='" +
+            req.body.currency_id +
             "', override='" +
             req.body.override +
             "', active='" +
