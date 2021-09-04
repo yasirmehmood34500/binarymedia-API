@@ -39,7 +39,7 @@ module.exports = {
     },
     calculateLoanInterest: (req, res) => {
         let query =
-            "SELECT loanTerm, repaymentFrequency, (SELECT debit FROm loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CP' ) AS all_disburse, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid' ) AS pay_disburse ,(SELECT debit FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CI' ) AS all_interest, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid') AS pay_interest, (SELECT SUM(credit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WI' ) AS pay_waive, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WO' ) AS writeOffPrincipal, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WO' ) AS writeOffInterest FROM loan WHERE id=" +
+            "SELECT loanTerm, repaymentFrequency, (SELECT debit FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CP' ) AS all_disburse, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid' ) AS pay_disburse ,(SELECT debit FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CI' ) AS all_interest, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid') AS pay_interest, (SELECT SUM(credit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WI' ) AS pay_waive, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WO' ) AS writeOffPrincipal, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WO' ) AS writeOffInterest, (SELECT SUM(debit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CF' ) AS all_fees, (SELECT SUM(credit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CF' ) AS pay_fees FROM loan WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -49,36 +49,64 @@ module.exports = {
                     message: "Something is really bad happens",
                 });
             } else {
-                let loanTerm = result[0].loanTerm;
-                let repaymentFrequency = result[0].repaymentFrequency;
-                let noOfTran = loanTerm / repaymentFrequency;
-                let all_disburse = result[0].all_disburse != null ? result[0].all_disburse : 0;
-                let pay_disburse = result[0].pay_disburse != null ? result[0].pay_disburse : 0;
-                let payable_disburse = all_disburse - pay_disburse;
-                let all_interest = result[0].all_interest != null ? result[0].all_interest : 0;
-                let pay_interest = result[0].pay_interest != null ? result[0].pay_interest : 0;
-                let pay_waive = result[0].pay_waive != null ? result[0].pay_waive : 0;
-                let payable_interest = (all_interest - (pay_waive + pay_interest));
-
-                let writeOffInterest = result[0].writeOffInterest != null ? result[0].writeOffInterest : 0;
-                let writeOffPrincipal = result[0].writeOffPrincipal != null ? result[0].writeOffPrincipal : 0;
-
                 let data = {
-                    loanTerm: loanTerm,
-                    repaymentFrequency: repaymentFrequency,
-                    allDisburse: all_disburse,
-                    payDisburse: pay_disburse,
-                    allInterest: all_interest,
-                    payInterest: pay_interest,
-                    payWaive: pay_waive,
-                    payableDisburse: payable_disburse,
-                    payableInterest: payable_interest,
-                    interestPerTransaction: all_interest / noOfTran,
-                    totalPayable: payable_disburse + payable_interest,
-                    writeOffInterest: writeOffInterest,
-                    writeOffPrincipal: writeOffPrincipal,
-                    totalPayAmount: ((all_disburse+all_interest)-(payable_disburse+payable_interest)),
+                    loanTerm: 0,
+                        repaymentFrequency: 0,
+                        allDisburse: 0,
+                        payDisburse: 0,
+                        allInterest: 0,
+                        payInterest: 0,
+                        payWaive: 0,
+                        payableDisburse: 0,
+                        payableInterest: 0,
+                        interestPerTransaction: 0,
+                        totalPayable: 0,
+                        writeOffInterest: 0,
+                        writeOffPrincipal: 0,
+                        allFees: 0,
+                        payFees: 0,
+                        payableFees: 0,
+                        totalPayAmount: 0,
                 }
+                if(result.length > 0) {
+                    let loanTerm = result[0].loanTerm;
+                    let repaymentFrequency = result[0].repaymentFrequency;
+                    let noOfTran = loanTerm / repaymentFrequency;
+                    let all_disburse = result[0].all_disburse != null ? result[0].all_disburse : 0;
+                    let pay_disburse = result[0].pay_disburse != null ? result[0].pay_disburse : 0;
+                    let payable_disburse = all_disburse - pay_disburse;
+                    let all_interest = result[0].all_interest != null ? result[0].all_interest : 0;
+                    let pay_interest = result[0].pay_interest != null ? result[0].pay_interest : 0;
+                    let pay_waive = result[0].pay_waive != null ? result[0].pay_waive : 0;
+                    let payable_interest = (all_interest - (pay_waive + pay_interest));
+    
+                    let all_fees = result[0].all_fees != null ? result[0].all_fees : 0
+                    let pay_fees = result[0].pay_fees != null ? result[0].pay_fees : 0
+    
+                    let writeOffInterest = result[0].writeOffInterest != null ? result[0].writeOffInterest : 0;
+                    let writeOffPrincipal = result[0].writeOffPrincipal != null ? result[0].writeOffPrincipal : 0;
+    
+                     data = {
+                        loanTerm: loanTerm,
+                        repaymentFrequency: repaymentFrequency,
+                        allDisburse: all_disburse,
+                        payDisburse: pay_disburse,
+                        allInterest: all_interest,
+                        payInterest: pay_interest,
+                        payWaive: pay_waive,
+                        payableDisburse: payable_disburse,
+                        payableInterest: payable_interest,
+                        interestPerTransaction: all_interest / noOfTran,
+                        totalPayable: payable_disburse + payable_interest,
+                        writeOffInterest: writeOffInterest,
+                        writeOffPrincipal: writeOffPrincipal,
+                        allFees: all_fees,
+                        payFees: pay_fees,
+                        payableFees: all_fees - pay_fees,
+                        totalPayAmount: ((all_disburse + all_interest + all_fees) - (payable_disburse + payable_interest + pay_fees)),
+                    }
+                }
+                
                 res.status(200).json({
                     success: true,
                     message: "Success",
@@ -101,37 +129,37 @@ module.exports = {
         let own_per_transaction_amount = 0;
         let own_no_of_transaction = 0;
         // if (interestMethodology == "flat") {
-            if (interestRateType == "year" && repaymentType == "days") {
-                own_amount_percentage = (amount * interestRate) / 100;
-                own_interest_per_transaction = own_amount_percentage / repaymentFrequency;
-                own_no_of_transaction = loanTerm / repaymentFrequency;
-                own_per_transaction_amount = amount / own_no_of_transaction;
-            } else if (interestRateType == "year" && repaymentType == "weeks") {
-                own_amount_percentage = ((amount * interestRate) / 100);
-                own_interest_per_transaction = own_amount_percentage / repaymentFrequency;
-                own_no_of_transaction = loanTerm / repaymentFrequency;
-                own_per_transaction_amount = amount / own_no_of_transaction;
-            } else if (interestRateType == "year" && repaymentType == "months") {
-                own_amount_percentage = ((amount * interestRate) / 100);
-                own_interest_per_transaction = own_amount_percentage / 12;
-                own_no_of_transaction = loanTerm / repaymentFrequency;
-                own_per_transaction_amount = amount / own_no_of_transaction;
-            } else if (interestRateType == "month" && repaymentType == "days") {
-                own_amount_percentage = ((amount * interestRate) / 100);
-                own_interest_per_transaction = own_amount_percentage / 30;
-                own_no_of_transaction = loanTerm / repaymentFrequency;
-                own_per_transaction_amount = amount / own_no_of_transaction;
-            } else if (interestRateType == "month" && repaymentType == "weeks") {
-                own_amount_percentage = ((amount * interestRate) / 100);
-                own_interest_per_transaction = own_amount_percentage / 4;
-                own_no_of_transaction = loanTerm / repaymentFrequency;
-                own_per_transaction_amount = amount / own_no_of_transaction;
-            } else if (interestRateType == "month" && repaymentType == "months") {
-                own_amount_percentage = ((amount * interestRate) / 100);
-                own_interest_per_transaction = own_amount_percentage;
-                own_no_of_transaction = loanTerm / repaymentFrequency;
-                own_per_transaction_amount = amount / own_no_of_transaction;
-            }
+        if (interestRateType == "year" && repaymentType == "days") {
+            own_amount_percentage = (amount * interestRate) / 100;
+            own_interest_per_transaction = own_amount_percentage / repaymentFrequency;
+            own_no_of_transaction = loanTerm / repaymentFrequency;
+            own_per_transaction_amount = amount / own_no_of_transaction;
+        } else if (interestRateType == "year" && repaymentType == "weeks") {
+            own_amount_percentage = ((amount * interestRate) / 100);
+            own_interest_per_transaction = own_amount_percentage / repaymentFrequency;
+            own_no_of_transaction = loanTerm / repaymentFrequency;
+            own_per_transaction_amount = amount / own_no_of_transaction;
+        } else if (interestRateType == "year" && repaymentType == "months") {
+            own_amount_percentage = ((amount * interestRate) / 100);
+            own_interest_per_transaction = own_amount_percentage / 12;
+            own_no_of_transaction = loanTerm / repaymentFrequency;
+            own_per_transaction_amount = amount / own_no_of_transaction;
+        } else if (interestRateType == "month" && repaymentType == "days") {
+            own_amount_percentage = ((amount * interestRate) / 100);
+            own_interest_per_transaction = own_amount_percentage / 30;
+            own_no_of_transaction = loanTerm / repaymentFrequency;
+            own_per_transaction_amount = amount / own_no_of_transaction;
+        } else if (interestRateType == "month" && repaymentType == "weeks") {
+            own_amount_percentage = ((amount * interestRate) / 100);
+            own_interest_per_transaction = own_amount_percentage / 4;
+            own_no_of_transaction = loanTerm / repaymentFrequency;
+            own_per_transaction_amount = amount / own_no_of_transaction;
+        } else if (interestRateType == "month" && repaymentType == "months") {
+            own_amount_percentage = ((amount * interestRate) / 100);
+            own_interest_per_transaction = own_amount_percentage;
+            own_no_of_transaction = loanTerm / repaymentFrequency;
+            own_per_transaction_amount = amount / own_no_of_transaction;
+        }
         // }
         let query =
             "UPDATE   loan SET loan_status_id='" +

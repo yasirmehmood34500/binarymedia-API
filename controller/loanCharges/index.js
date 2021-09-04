@@ -1,7 +1,7 @@
 module.exports = {
     viewLoanCharges: (req, res) => {
         let query =
-            "SELECT id, name, chargeType, amount, chargeOption, currency_id, (SELECT name FROM currency WHERE id=loan_charges.currency_id) AS currency, penalty, override, active FROM loan_charges WHERE status =1";
+            "SELECT id, name, chargeType, amount, chargeOption, currency_id, (SELECT name FROM currency WHERE id=loan_charges.currency_id) AS currency, penalty, override, active FROM loan_charges WHERE status =1 ORDER BY chargeType ASC";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({

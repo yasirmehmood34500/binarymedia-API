@@ -1,7 +1,7 @@
 module.exports = {
     viewLoanChargeList: (req, res) => {
         let query =
-            "SELECT id, loan_id, loan_charges_id, waive_charge_status, amount FROM loan_charge_list WHERE status =1";
+            "SELECT id, loan_id, name, chargeType, valuee, payableAmount, collectedOn, action FROM loan_charge_list WHERE status =1";
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -17,10 +17,29 @@ module.exports = {
             }
         });
     },
+
     viewLoanChargeListLoanWise: (req, res) => {
         let query =
-            "SELECT loan_charge_list.id, loan_charge_list.loan_id, loan_charge_list.loan_charges_id, loan_charges.name, loan_charges.chargeType, loan_charges.chargeOption,  loan_charge_list.waive_charge_status, loan_charge_list.amount FROM loan_charge_list LEFT JOIN loan_charges  ON loan_charge_list.loan_charges_id=loan_charges.id WHERE loan_charge_list.status =1 AND loan_charge_list.loan_id ="+req.params.loan_id;
-        
+            "SELECT id, loan_id, name, chargeType, valuee, payableAmount, collectedOn, action FROM loan_charge_list WHERE status =1 AND loan_id ="+req.params.loan_id+" ORDER BY chargeType ASC, collectedOn ASC";
+            db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: result,
+                });
+            }
+        });
+    },
+
+    viewLoanChargeListLoanWiseWithChargeType: (req, res) => {
+        let query =
+            "SELECT id, loan_id, name, chargeType, valuee, payableAmount, collectedOn, action FROM loan_charge_list WHERE chargeType='"+req.body.chargeType+"' AND  status =1 AND loan_id ="+req.params.loan_id+" ORDER BY chargeType ASC, collectedOn ASC";
             db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -39,7 +58,7 @@ module.exports = {
 
     singleLoanChargeList: (req, res) => {
         let query =
-            "SELECT id, loan_id, loan_charges_id, waive_charge_status, amount FROM loan_charge_list WHERE id=" +
+            "SELECTid, loan_id, name, chargeType, valuee, payableAmount, collectedOn, action FROM loan_charge_list WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -60,7 +79,7 @@ module.exports = {
     
     loanChargeListWaiveCharge: (req, res) => {
         let query =
-            "UPDATE loan_charge_list  SET waive_charge_status = 1 WHERE id=" +
+            "UPDATE loan_charge_list  SET action = 2 WHERE id=" +
             req.body.id;
         db.query(query, (err, result) => {
             if (err) {
@@ -107,12 +126,18 @@ module.exports = {
         let query =
             "INSERT INTO  loan_charge_list SET loan_id='" +
             req.body.loan_id +
-            "', loan_charges_id='" +
-            req.body.loan_charges_id +
-            "', waive_charge_status='" +
-            req.body.waive_charge_status +
-            "', amount='" +
-            req.body.amount +
+            "', name='" +
+            req.body.name +
+            "', chargeType='" +
+            req.body.chargeType +
+            "', valuee='" +
+            req.body.valuee +
+            "', payableAmount='" +
+            req.body.payableAmount +
+            "', collectedOn='" +
+            req.body.collectedOn +
+            "', action='" +
+            req.body.action +
            
             "', createAt='" +
             year +
@@ -140,12 +165,18 @@ module.exports = {
         let query =
             "UPDATE loan_charge_list SET loan_id='" +
             req.body.loan_id +
-            "', loan_charges_id='" +
-            req.body.loan_charges_id +
-            "', waive_charge_status='" +
-            req.body.waive_charge_status +
-            "', amount='" +
-            req.body.amount +
+            "', name='" +
+            req.body.name +
+            "', chargeType='" +
+            req.body.chargeType +
+            "', valuee='" +
+            req.body.valuee +
+            "', payableAmount='" +
+            req.body.payableAmount +
+            "', collectedOn='" +
+            req.body.collectedOn +
+            "', action='" +
+            req.body.action +
            
             "' WHERE id=" +
             req.body.id;

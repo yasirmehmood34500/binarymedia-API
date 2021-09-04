@@ -168,6 +168,7 @@ const {
   deleteLoanChargeList,
   viewLoanChargeListLoanWise,
   loanChargeListWaiveCharge,
+  viewLoanChargeListLoanWiseWithChargeType,
 } = require("./controller/loanChargeList");
 const {
   viewLoanCharges,
@@ -241,6 +242,7 @@ const {
   deleteLoanRepaymentSchedule,
   viewLoanRepaymentScheduleLoanWise,
   deleteLoanRepaymentScheduleLoanWise,
+  singleLoanRepaymentScheduleDisbursementAndBalance,
 } = require("./controller/loanRepaymentSchedule");
 const {
   viewLoanTransactionList,
@@ -637,6 +639,10 @@ router.get(
   version + "/loanChargeListLoanWise/:loan_id",
   viewLoanChargeListLoanWise
 );
+router.post(
+  version + "/loanChargeListLoanWise/:loan_id",
+  viewLoanChargeListLoanWiseWithChargeType
+);
 router.post(version + "/loanChargeList", addLoanChargeList);
 router.put(version + "/loanChargeList", updateLoanChargeList);
 router.delete(version + "/loanChargeList/:id", deleteLoanChargeList);
@@ -793,6 +799,8 @@ router.get(
   viewLoanRepaymentScheduleLoanWise
 );
 router.post(version + "/loanRepaymentSchedule", addLoanRepaymentSchedule);
+router.post(version + "/loanRepaymentScheduleDisbursementAndBalance", singleLoanRepaymentScheduleDisbursementAndBalance);
+
 router.put(version + "/loanRepaymentSchedule", updateLoanRepaymentSchedule);
 router.delete(
   version + "/loanRepaymentSchedule/:id",

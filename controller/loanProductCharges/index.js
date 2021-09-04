@@ -20,7 +20,7 @@ module.exports = {
 
     viewLoanProductChargesProductWise: (req, res) => {
         let query =
-            "SELECT id, loan_charges_id, loan_products_id, (SELECT currency_id FROM loan_products WHERE id =loan_product_charges.loan_products_id) AS currency_id FROM  loan_product_charges WHERE status =1 AND loan_products_id ="+req.params.loan_products_id;
+            "SELECT id, loan_charges_id, (SELECT name FROM loan_charges WHERE id =loan_product_charges.loan_charges_id) AS chargeName, loan_products_id, (SELECT currency_id FROM loan_products WHERE id =loan_product_charges.loan_products_id) AS currency_id FROM  loan_product_charges WHERE status =1 AND loan_products_id ="+req.params.loan_products_id;
             
         db.query(query, (err, result) => {
             if (err) {
