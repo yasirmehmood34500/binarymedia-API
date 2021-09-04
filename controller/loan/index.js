@@ -39,7 +39,7 @@ module.exports = {
     },
     calculateLoanInterest: (req, res) => {
         let query =
-            "SELECT loanTerm, repaymentFrequency, (SELECT debit FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CP' ) AS all_disburse, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid' ) AS pay_disburse ,(SELECT debit FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CI' ) AS all_interest, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid') AS pay_interest, (SELECT SUM(credit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WI' ) AS pay_waive, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WO' ) AS writeOffPrincipal, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WO' ) AS writeOffInterest, (SELECT SUM(debit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CF' ) AS all_fees, (SELECT SUM(credit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CF' ) AS pay_fees FROM loan WHERE id=" +
+            "SELECT loanTerm, repaymentFrequency, (SELECT debit FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CP' ) AS all_disburse, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid' ) AS pay_disburse ,(SELECT debit FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CI' ) AS all_interest, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid') AS pay_interest, (SELECT SUM(credit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WI' ) AS pay_waive, (SELECT SUM(cP) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WO' ) AS writeOffPrincipal, (SELECT SUM(cI) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WO' ) AS writeOffInterest, (SELECT SUM(debit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CF' ) AS all_fees, (SELECT SUM(credit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='CF' ) AS pay_fees_on_disbursement, (SELECT SUM(credit) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='WF' ) AS waive_fee , (SELECT SUM(cF) FROM loan_transaction_list WHERE loan_id=loan.id AND status=1 AND type='Paid' ) AS pay_fees_on_paid FROM loan WHERE id=" +
             req.params.id +
             " AND status =1";
         db.query(query, (err, result) => {
@@ -65,6 +65,10 @@ module.exports = {
                         writeOffPrincipal: 0,
                         allFees: 0,
                         payFees: 0,
+                        payFeesOnDisbursement:0,
+                        payFeesOnPaid:0,
+                        payableFees: 0,
+                        waiveFee: 0,
                         payableFees: 0,
                         totalPayAmount: 0,
                 }
@@ -81,7 +85,10 @@ module.exports = {
                     let payable_interest = (all_interest - (pay_waive + pay_interest));
     
                     let all_fees = result[0].all_fees != null ? result[0].all_fees : 0
-                    let pay_fees = result[0].pay_fees != null ? result[0].pay_fees : 0
+                    let pay_fees_on_disbursement = result[0].pay_fees_on_disbursement != null ? result[0].pay_fees_on_disbursement : 0
+                    let pay_fees_on_paid = result[0].pay_fees_on_paid != null ? result[0].pay_fees_on_paid : 0
+                    let pay_fees=pay_fees_on_disbursement + pay_fees_on_paid;
+                    let waive_fee = result[0].waive_fee != null ? result[0].waive_fee : 0
     
                     let writeOffInterest = result[0].writeOffInterest != null ? result[0].writeOffInterest : 0;
                     let writeOffPrincipal = result[0].writeOffPrincipal != null ? result[0].writeOffPrincipal : 0;
@@ -102,7 +109,10 @@ module.exports = {
                         writeOffPrincipal: writeOffPrincipal,
                         allFees: all_fees,
                         payFees: pay_fees,
+                        payFeesOnDisbursement:pay_fees_on_disbursement,
+                        payFeesOnPaid:pay_fees_on_paid,
                         payableFees: all_fees - pay_fees,
+                        waiveFee: waive_fee,
                         totalPayAmount: ((all_disburse + all_interest + all_fees) - (payable_disburse + payable_interest + pay_fees)),
                     }
                 }

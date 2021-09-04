@@ -58,9 +58,10 @@ module.exports = {
 
     singleLoanChargeList: (req, res) => {
         let query =
-            "SELECTid, loan_id, name, chargeType, valuee, payableAmount, collectedOn, action FROM loan_charge_list WHERE id=" +
+            "SELECT id, loan_id, name, chargeType, valuee, payableAmount, collectedOn, action FROM loan_charge_list WHERE id=" +
             req.params.id +
             " AND status =1";
+            console.log(query);
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -80,7 +81,7 @@ module.exports = {
     loanChargeListWaiveCharge: (req, res) => {
         let query =
             "UPDATE loan_charge_list  SET action = 2 WHERE id=" +
-            req.body.id;
+            req.params.id;
         db.query(query, (err, result) => {
             if (err) {
                 res.status(400).json({
@@ -91,7 +92,7 @@ module.exports = {
                 res.status(200).json({
                     success: true,
                     message: "Success",
-                    result: "Successfully Deleted",
+                    result: "Successfully Update",
                 });
             }
         });

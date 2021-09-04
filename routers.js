@@ -634,7 +634,7 @@ router.delete(
 // loan charge list routes
 router.get(version + "/loanChargeList", viewLoanChargeList);
 router.get(version + "/loanChargeList/:id", singleLoanChargeList);
-router.post(version + "/loanChargeListWaiveCharge", loanChargeListWaiveCharge);
+router.put(version + "/loanChargeListWaiveCharge/:id", loanChargeListWaiveCharge);
 router.get(
   version + "/loanChargeListLoanWise/:loan_id",
   viewLoanChargeListLoanWise

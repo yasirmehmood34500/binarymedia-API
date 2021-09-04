@@ -141,6 +141,8 @@ module.exports = {
             req.body.cP +
             "', cI='" +
             req.body.cI +
+            "', cF='" +
+            req.body.cF +
             "', type='" +
             req.body.type +
             "', account='" +
@@ -196,6 +198,8 @@ module.exports = {
             req.body.cP +
             "', cI='" +
             req.body.cI +
+            "', cF='" +
+            req.body.cF +
             "', type='" +
             req.body.type +
             "', account='" +
