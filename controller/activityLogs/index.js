@@ -94,7 +94,6 @@ module.exports = {
         "-" +
         date +
         "'";
-        console.log(query);
       db.query(query, (err, result) => {
         if (err) {
           res.status(400).json({
