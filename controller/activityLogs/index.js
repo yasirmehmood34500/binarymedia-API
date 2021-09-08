@@ -1,25 +1,43 @@
 module.exports = {
-    viewActivityLogs: (req, res) => {
-      let query =
-        "SELECT id, user_id, (SELECT firstName FROM user WHERE id=activity_logs.user_id) AS user, description FROM activity_logs WHERE status = 1";
-      db.query(query, (err, result) => {
-        if (err) {
-          res.status(400).json({
-            success: false,
-            message: "Something is really bad happens",
-          });
-        } else {
-          res.status(200).json({
-            success: true,
-            message: "Success",
-            result: result,
-          });
-        }
-      });
-    },
+  viewActivityLogs: (req, res) => {
+    let query =
+      "SELECT id, login_id, (SELECT fName FROM login WHERE id=activity_logs.login_id) AS login, description, createAt FROM activity_logs WHERE status = 1";
+    db.query(query, (err, result) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: "Something is really bad happens",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Success",
+          result: result,
+        });
+      }
+    });
+  },
+  viewActivityLogsLoginWise: (req, res) => {
+    let query =
+      "SELECT id, login_id, (SELECT fName FROM login WHERE id=activity_logs.login_id) AS login, description, createAt FROM activity_logs WHERE status = 1 AND login_id="+req.params.login_id;
+    db.query(query, (err, result) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: "Something is really bad happens",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Success",
+          result: result,
+        });
+      }
+    });
+  },
     singleActivityLogs: (req, res) => {
       let query =
-        "SELECT id, user_id, (SELECT firstName FROM user WHERE id=activity_logs.user_id) AS user , description FROM activity_logs WHERE id=" +
+        "SELECT id, login_id, (SELECT fName FROM login WHERE id=activity_logs.login_id) AS login, description, createAt FROM activity_logs WHERE id=" +
         req.params.id +
         " AND status =1";
       db.query(query, (err, result) => {
@@ -65,8 +83,8 @@ module.exports = {
       let month = date_ob.getMonth() + 1;
       let year = date_ob.getFullYear();
       let query =
-        "INSERT INTO  activity_logs SET user_id='" +
-        req.body.user_id +
+        "INSERT INTO  activity_logs SET login_id='" +
+        req.body.login_id +
         "', description='" +
         req.body.description +
         "', createAt='" +
@@ -94,8 +112,8 @@ module.exports = {
     },
     updateActivityLogs: (req, res) => {
       let query =
-        "UPDATE  activity_logs SET user_id='" +
-        req.body.user_id +
+        "UPDATE  activity_logs SET login_id='" +
+        req.body.login_id +
         "', description= '" +
         req.body.description +
         "' WHERE id=" +

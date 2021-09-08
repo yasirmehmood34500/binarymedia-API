@@ -19,6 +19,7 @@ const {
   addActivityLogs,
   updateActivityLogs,
   deleteActivityLogs,
+  viewActivityLogsLoginWise,
 } = require("./controller/activityLogs");
 const {
   viewAsset,
@@ -34,6 +35,7 @@ const {
   updateAssetType,
   deleteAssetType,
 } = require("./controller/assetType");
+const { viewLogin, singleLogin, addLogin, updateLogin, deleteLogin, loginLogin, changePassword } = require("./controller/auth");
 const {
   viewBranches,
   singleBranches,
@@ -531,6 +533,7 @@ router.delete(version + "/income/:id", deleteIncome);
 // activity logs routes
 router.get(version + "/activityLogs", viewActivityLogs);
 router.get(version + "/activityLogs/:id", singleActivityLogs);
+router.get(version + "/activityLogsLoginWise/:login_id", viewActivityLogsLoginWise);
 router.post(version + "/activityLogs", addActivityLogs);
 router.put(version + "/activityLogs", updateActivityLogs);
 router.delete(version + "/activityLogs/:id", deleteActivityLogs);
@@ -612,6 +615,15 @@ router.get(version + "/loanPurpose/:id", singleLoanPurpose);
 router.post(version + "/loanPurpose", addLoanPurpose);
 router.put(version + "/loanPurpose", updateLoanPurpose);
 router.delete(version + "/loanPurpose/:id", deleteLoanPurpose);
+
+// login routes
+router.get(version + "/login", viewLogin);
+router.get(version + "/login/:id", singleLogin);
+router.post(version + "/login", addLogin);
+router.post(version + "/loginLogin", loginLogin);
+router.put(version + "/login", updateLogin);
+router.put(version + "/changePassword", changePassword);
+router.delete(version + "/login/:id", deleteLogin);
 
 // payroll template item list routes
 router.get(version + "/payrollTemplateItemList", viewPayrollTemplateItemList);
