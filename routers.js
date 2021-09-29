@@ -245,6 +245,7 @@ const {
   viewLoanRepaymentScheduleLoanWise,
   deleteLoanRepaymentScheduleLoanWise,
   singleLoanRepaymentScheduleDisbursementAndBalance,
+  viewLoanRepaymentScheduleLoanWiseDESC,
 } = require("./controller/loanRepaymentSchedule");
 const {
   viewLoanTransactionList,
@@ -255,6 +256,7 @@ const {
   viewLoanTransactionListLoanWise,
   deleteLoanTransactionListLoanWise,
   deleteLoanTransactionListWriteOffLoanWise,
+  viewLoanTransactionListFromTo,
 } = require("./controller/loanTransactionList");
 const {
   viewPaymentType,
@@ -717,6 +719,7 @@ router.delete(
   version + "/loanTransactionListWriteOffLoanWise/:loan_id",
   deleteLoanTransactionListWriteOffLoanWise
 );
+router.get(version + "/loanTransactionListFromTo/:fromDate/:toDate", viewLoanTransactionListFromTo);
 
 // loan note routes
 router.get(version + "/loanNoteList", viewLoanNoteList);
@@ -809,6 +812,10 @@ router.get(version + "/loanRepaymentSchedule/:id", singleLoanRepaymentSchedule);
 router.get(
   version + "/loanRepaymentScheduleLoanWise/:loan_id",
   viewLoanRepaymentScheduleLoanWise
+);
+router.get(
+  version + "/loanRepaymentScheduleLoanWiseDESC/:loan_id",
+  viewLoanRepaymentScheduleLoanWiseDESC
 );
 router.post(version + "/loanRepaymentSchedule", addLoanRepaymentSchedule);
 router.post(version + "/loanRepaymentScheduleDisbursementAndBalance", singleLoanRepaymentScheduleDisbursementAndBalance);

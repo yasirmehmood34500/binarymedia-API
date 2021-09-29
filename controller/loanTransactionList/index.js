@@ -17,6 +17,24 @@ module.exports = {
             }
         });
     },
+    viewLoanTransactionListFromTo: (req, res) => {
+        let query =
+            "SELECT id, loan_id, payment_type_id, (SELECT name FROm payment_type WHERE id=loan_transaction_list.payment_type_id) AS payment_type, submittedOn, transactionType, debit, credit, account, cheque, routingCode, receipt, bank, detail, createAt FROM loan_transaction_list WHERE status =1 AND createAt BETWEEN '"+req.params.fromDate+"' AND '"+req.params.toDate+"' AND type ='Paid'";
+            db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: result,
+                });
+            }
+        });
+    },
     viewLoanTransactionListLoanWise: (req, res) => {
         let query =
             "SELECT id, loan_id,payment_type_id, (SELECT name FROm payment_type WHERE id=loan_transaction_list.payment_type_id) AS payment_type, submittedOn, transactionType, debit, credit, account, cheque, routingCode, receipt, bank, detail, createAt FROM loan_transaction_list WHERE status =1 AND loan_id="+req.params.loan_id;
