@@ -257,6 +257,7 @@ const {
   deleteLoanTransactionListLoanWise,
   deleteLoanTransactionListWriteOffLoanWise,
   viewLoanTransactionListFromTo,
+  calculateLoanTransactionListFromToCapitalProfit,
 } = require("./controller/loanTransactionList");
 const {
   viewPaymentType,
@@ -720,6 +721,8 @@ router.delete(
   deleteLoanTransactionListWriteOffLoanWise
 );
 router.get(version + "/loanTransactionListFromTo/:fromDate/:toDate", viewLoanTransactionListFromTo);
+router.get(version + "/calculateLoanTransactionListFromToCapitalProfit/:fromDate/:toDate", calculateLoanTransactionListFromToCapitalProfit);
+
 
 // loan note routes
 router.get(version + "/loanNoteList", viewLoanNoteList);

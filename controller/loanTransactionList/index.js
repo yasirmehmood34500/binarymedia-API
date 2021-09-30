@@ -73,6 +73,25 @@ module.exports = {
             }
         });
     },
+    calculateLoanTransactionListFromToCapitalProfit: (req, res) => {
+        let query =
+            "SELECT SUM(cP) AS capital, (SUM(cI) + SUM(cF)) AS profit FROM loan_transaction_list WHERE status =1 AND createAt BETWEEN '"+req.params.fromDate+"' AND '"+req.params.toDate+"' AND type ='Paid'";
+          
+            db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result:  {capital: result[0].capital < 0 ? 0 : result[0].capital, profit: result[0].profit < 0 ? 0 : result[0].profit,},
+                });
+            }
+        });
+    },
     deleteLoanTransactionList: (req, res) => {
         let query =
             "UPDATE loan_transaction_list  SET status = 0 WHERE id=" +
