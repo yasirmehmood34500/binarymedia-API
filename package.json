@@ -2,7 +2,7 @@
   "name": "binarymediaapi",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",

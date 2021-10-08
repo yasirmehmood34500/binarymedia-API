@@ -130,7 +130,7 @@ module.exports = {
         let loanTerm = parseInt(req.body.loanTerm);
         let repaymentFrequency = parseInt(req.body.repaymentFrequency);
         let repaymentType = req.body.repaymentType;
-        let interestRate = parseInt(req.body.interestRate);
+        let interestRate = req.body.interestRate;
         let interestRateType = req.body.interestRateType;
         let interestMethodology = req.body.interestMethodology;
         let amount = parseInt(req.body.approvedAmount);
@@ -181,7 +181,7 @@ module.exports = {
             "', approvedAmount='" +
             amount +
             "', own_amount_percentage='" +
-            own_amount_percentage.toFixed(0) +
+            own_amount_percentage.toFixed(2) +
             "', own_interest_per_transaction='" +
             own_interest_per_transaction.toFixed(0) +
             "', own_no_of_transaction='" +

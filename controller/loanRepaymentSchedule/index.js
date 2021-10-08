@@ -18,6 +18,26 @@ module.exports = {
         });
     },
 
+    viewLoanRepaymentSchedulePendingPaymentsToDate: (req, res) => {
+        let query =
+            "SELECT id, loan_id, (SELECT disburseAmount FROM loan WHERE id=loan_repayment_schedule.loan_id ) AS totalPrincipal, (SELECT firstName FROM client WHERE id=(SELECT client_id FROM loan WHERE id=loan_repayment_schedule.loan_id)) AS client, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties ,  totalPaid FROM loan_repayment_schedule WHERE status =1 AND ((principalDue+interestDue+fees+penalties)-totalPaid)>0 AND disbursement=0 AND ddate<='" + req.params.to_date+"' ORDER BY ddate ASC";
+        
+            db.query(query, (err, result) => {
+            if (err) {
+                res.status(400).json({
+                    success: false,
+                    message: "Something is really bad happens",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: "Success",
+                    result: result,
+                });
+            }
+        });
+    },
+
     viewLoanRepaymentScheduleLoanWise: (req, res) => {
         let query =
             "SELECT id, loan_id, ddate, ddays, payDate, disbursement, principalDue, principalBalance, interestDue, fees, penalties, (principalDue+interestDue+fees+penalties) AS totalDue ,  totalPaid, ((principalDue+interestDue+fees+penalties)-totalPaid) AS totalOutStanding FROM loan_repayment_schedule WHERE status =1 AND loan_id=" + req.params.loan_id;

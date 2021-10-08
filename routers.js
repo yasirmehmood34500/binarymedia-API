@@ -144,6 +144,7 @@ const {
   updateIncomeType,
   deleteIncomeType,
 } = require("./controller/incomeType");
+const { viewLawyer, singleLawyer, addLawyer, updateLawyer, deleteLawyer } = require("./controller/lawyer");
 const {
   viewLoan,
   singleLoan,
@@ -246,6 +247,7 @@ const {
   deleteLoanRepaymentScheduleLoanWise,
   singleLoanRepaymentScheduleDisbursementAndBalance,
   viewLoanRepaymentScheduleLoanWiseDESC,
+  viewLoanRepaymentSchedulePendingPaymentsToDate,
 } = require("./controller/loanRepaymentSchedule");
 const {
   viewLoanTransactionList,
@@ -832,6 +834,11 @@ router.delete(
   version + "/loanRepaymentScheduleLoanWise/:loan_id",
   deleteLoanRepaymentScheduleLoanWise
 );
+router.get(
+  version + "/loanRepaymentSchedulePendingPaymentsToDate/:to_date",
+  viewLoanRepaymentSchedulePendingPaymentsToDate
+);
+
 
 // saving charges routes
 router.get(version + "/savingCharges", viewSavingCharges);
@@ -850,6 +857,13 @@ router.get(version + "/savingProduct/:id", singleSavingProduct);
 router.post(version + "/savingProduct", addSavingProduct);
 router.put(version + "/savingProduct", updateSavingProduct);
 router.delete(version + "/savingProduct/:id", deleteSavingProduct);
+
+// lawyer routes
+router.get(version + "/lawyer", viewLawyer);
+router.get(version + "/lawyer/:id", singleLawyer);
+router.post(version + "/lawyer", addLawyer);
+router.put(version + "/lawyer", updateLawyer);
+router.delete(version + "/lawyer/:id", deleteLawyer);
 
 // saving charge list routes
 router.get(version + "/savingChargeList", viewSavingChargeList);
